@@ -2,288 +2,1376 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <title>Bảo Mật Quản Trị Số May Mắn - Nhà Gioan</title>
-    <meta name="description" content="Chương trình quay số may mắn chúc mừng năm mới 2026 dành riêng cho gia đình nhà Gioan.">
-    
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://github.com/nguyenngocdang00/locdauxuannhagioan/admingioan.html"> 
-    <meta property="og:title" content="🧧 Bảo Mật Quản Trị Số May Mắn - Nhà Gioan 🧧">
-    <meta property="og:description" content="Cùng thử vận may đầu năm với chương trình quay số hấp dẫn. Chúc mừng năm mới 2026!">
-    <meta property="og:image" content="https://nguyenngocdang00.github.io/locdauxuannhagioan/loGoDoan.png"> 
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="🧧 Bảo Mật Quản Trị Số May Mắn - Nhà Gioan 🧧">
-    <meta property="twitter:description" content="Cùng thử vận may đầu năm 2026!">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Quản trị kết quả - Nhà Gioan</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; }
-        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #d32f2f; display: flex; justify-content: center; align-items: center; z-index: 9999; }
-        .login-box { background: white; padding: 40px; border-radius: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3); width: 320px; }
-        .login-box input { width: 100%; padding: 12px; margin-bottom: 20px; border: 2px solid #ddd; border-radius: 8px; font-size: 1.2rem; text-align: center; box-sizing: border-box; }
-        
-        .admin-box { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); display: none; }
-        h2 { color: #d32f2f; text-align: center; border-bottom: 2px solid #eee; padding-bottom: 10px; }
-        .prize-group { margin-bottom: 15px; background: #fff; padding: 10px; border-radius: 8px; border-left: 4px solid #d32f2f; position: relative; }
-        label { font-weight: bold; display: block; margin-bottom: 5px; color: #444; }
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-family: inherit; font-size: 1rem; }
-        textarea { height: 100px; resize: vertical; }
-        .count-badge { float: right; background: #666; color: white; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; }
-        
-        .log-section { margin-top: 40px; border-top: 3px double #ccc; padding-top: 20px; display: none; }
-        .log-container { background: #fafafa; border: 1px solid #ddd; height: 250px; overflow-y: auto; padding: 10px; border-radius: 8px; font-size: 0.85rem; }
-        .log-item { padding: 8px; border-bottom: 1px solid #eee; margin-bottom: 5px; }
-        
-        /* User Management Table */
-        .user-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
-        .user-table th, .user-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        .user-table th { background: #2e7d32; color: white; }
-        .btn-delete { background: #d32f2f; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
-
-        .btn-update { width: 100%; padding: 15px; background: #2e7d32; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1rem; }
-        .btn-logout { background: #666; margin-top: 10px; }
-        .timer-info { text-align: center; color: #d32f2f; font-weight: bold; margin-bottom: 15px; }
-        .user-form { background: #e8f5e9; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; color: #222; }
+        .panel { box-sizing:border-box; width: min(1800px, calc(100% - 24px)); margin: 12px auto; background: #fff; padding: clamp(24px, 3vw, 44px); border-radius: 14px; box-shadow: 0 4px 20px #0002; }
+        h1 { color: #c62828; text-align: center; }
+        .login { max-width: 420px; }
+        label { display: block; font-weight: 600; margin: 14px 0 6px; }
+        input, textarea { width: 100%; box-sizing: border-box; padding: 11px; border: 1px solid #bbb; border-radius: 6px; font: inherit; }
+        textarea { min-height: 90px; }
+        button { padding: 11px 16px; border: 0; border-radius: 6px; color: white; background: #2e7d32; font-weight: 700; cursor: pointer; }
+        button.secondary { background: #555; }
+        button:disabled { opacity: .6; cursor: wait; }
+        .prize { padding: 12px; margin: 12px 0; border-left: 4px solid #c62828; background: #fffafa; }
+        .status { min-height: 1.4em; margin-top: 12px; white-space: pre-wrap; }
+        .muted { color: #555; font-size: .95rem; }
+        #adminContent { display: none; }
+        .topline { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+        .popup-backdrop { position: fixed; inset: 0; z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(20, 10, 10, .58); }
+        .popup-backdrop.open { display: flex; }
+        .popup { width: min(440px, 100%); padding: 26px; border-radius: 14px; background: white; box-shadow: 0 18px 60px #0005; text-align: center; border-top: 7px solid #c62828; }
+        .popup[data-kind="success"] { border-top-color: #2e7d32; }
+        .popup h2 { margin: 0 0 12px; color: #c62828; }
+        .popup[data-kind="success"] h2 { color: #2e7d32; }
+        .popup-message { margin: 0 0 22px; font-size: 1.1rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; }
+        .config-toggle { margin:24px 0; border:1px solid #ead8b5; border-radius:12px; background:#fffaf0; }
+        .config-toggle > h2 { margin:0; padding:16px 20px 0; color:#8f2525; font-size:1.15rem; }
+        .config-panel { padding: 12px 22px 22px; }
+        .ticket-range-config { max-width:760px; margin:0 0 22px; padding:16px; border:1px solid #e1e6eb; border-radius:12px; background:#fff; }
+        .ticket-range-config h3 { margin:0 0 5px; color:#332b2b; }
+        .ticket-range-config p { margin:0 0 10px; color:#6d6d6d; font-size:.9rem; }
+        .ticket-range-config .range-fields { max-width:620px; }
+        .config-heading { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+        .config-heading h2 { margin:0 0 6px; color:#8f2525; font-size:1.25rem; }
+        .config-heading p { margin:0; color:#656565; }
+        .config-total { flex:0 0 auto; min-width:110px; padding:10px 14px; border-radius:10px; background:#fff1c9; color:#704700; text-align:center; }
+        .config-total strong { display:block; font-size:1.5rem; line-height:1.2; }
+        .config-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }
+        .count-card { display:grid; grid-template-columns:minmax(0,1fr) 84px; align-items:center; gap:8px 10px; padding:14px; border:1px solid #eee2d4; border-radius:10px; background:#fff; }
+        .count-card label { grid-column:1/-1; margin:0; color:#38302a; }
+        .count-card small { display:block; margin-top:4px; color:#777; font-weight:400; }
+        .count-card input { padding:10px; text-align:center; font-weight:700; font-size:1.1rem; }
+        .count-card .name-input { text-align:left; font-size:1rem; font-weight:500; }
+        .count-card .remove-prize { grid-column:1/-1; justify-self:end; padding:7px 10px; background:#8b2e2e; font-size:.82rem; }
+        .config-actions { display:flex; justify-content:flex-end; align-items:center; gap:12px; margin-top:16px; }
+        .config-hint { margin-right:auto; color:#6a6a6a; font-size:.9rem; }
+        @media(max-width:1350px) { .config-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+        @media(max-width:1000px) { .config-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+        @media(max-width:600px) { .config-panel { padding:12px 16px 16px; } .config-grid { grid-template-columns:1fr; } .count-card { grid-template-columns:minmax(0,1fr) 88px; } .config-actions { align-items:stretch; flex-direction:column; } .config-hint { margin:0; } }
+        .results-heading { display:flex; justify-content:space-between; align-items:end; gap:14px; margin:28px 0 14px; padding-bottom:12px; border-bottom:1px solid #e7e7e7; }
+        .results-heading h2 { margin:0; color:#332b2b; font-size:1.25rem; }
+        .results-heading p { margin:5px 0 0; color:#6d6d6d; font-size:.92rem; }
+        .results-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+        .result-card { min-width:0; padding:16px; border:1px solid #e5e7eb; border-radius:12px; background:#fff; transition:border-color .18s, box-shadow .18s; }
+        .result-card:focus-within { border-color:#d5a331; box-shadow:0 0 0 3px #f5e7bd80; }
+        .result-card-head { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; }
+        .result-name { color:#342d2d; font-weight:700; }
+        .result-progress { flex:0 0 auto; padding:4px 9px; border-radius:999px; background:#f1f3f5; color:#555; font-size:.82rem; font-weight:700; font-variant-numeric:tabular-nums; }
+        .result-progress.complete { background:#e5f4e8; color:#236b30; }
+        .result-lock { flex:0 0 auto; padding:6px 9px; border:1px solid #d9dde2; border-radius:7px; background:#f5f6f7; color:#4c535b; font-size:.8rem; }
+        .result-lock.unlocked { border-color:#f0c36a; background:#fff6df; color:#77520b; }
+        .result-card.is-locked { background:#f8f9fa; }
+        .result-card.is-locked textarea, .result-card.is-locked input { background:#f0f1f2; color:#555; cursor:not-allowed; }
+        .result-card textarea, .result-card input { min-height:46px; border:1px solid #d5d8dc; background:#fcfcfc; }
+        .result-card textarea { min-height:104px; resize:vertical; line-height:1.55; }
+        .result-card textarea::placeholder, .result-card input::placeholder { color:#969ba1; }
+        .result-card-foot { margin-top:8px; color:#7b8086; font-size:.82rem; }
+        .results-actions { display:flex; justify-content:space-between; align-items:center; gap:14px; margin-top:18px; padding-top:16px; border-top:1px solid #e7e7e7; }
+        .results-actions .hint { color:#6d6d6d; font-size:.9rem; }
+        .results-actions button { min-height:48px; padding-inline:22px; }
+        .save-status { margin-top:9px; color:#666; font-size:.86rem; }
+        .save-status[data-state="saving"] { color:#815b00; }
+        .save-status[data-state="dirty"] { color:#815b00; }
+        .save-status[data-state="saved"] { color:#236b30; }
+        .save-status[data-state="error"] { color:#b3261e; }
+        .sales-panel { margin-top:34px; padding-top:22px; border-top:1px solid #e4e6e8; }
+        .sales-panel h2 { margin:0 0 6px; color:#332b2b; font-size:1.25rem; }
+        .sales-form { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:18px 0; padding:16px; border:1px solid #e5e7eb; border-radius:12px; background:#fafafa; }
+        .sales-form label { margin:0 0 6px; font-size:.9rem; }
+        .sales-form .field { min-width:0; }
+        .sales-form .wide { grid-column:1/-1; }
+        .sales-form textarea { min-height:76px; }
+        .ticket-mode { display:flex; gap:8px; margin-bottom:12px; }
+        .ticket-mode button { padding:8px 12px; background:#e9ecef; color:#444; }
+        .ticket-mode button.active { background:#8f2525; color:#fff; }
+        .range-fields { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        .range-preview { margin-top:8px; color:#6d6d6d; font-size:.86rem; }
+        .sales-table-wrap { overflow:auto; margin-top:14px; }
+        .table-toolbar { display:flex; justify-content:flex-end; margin:14px 0 6px; }
+        .export-button { background:#176b50; }
+        .sales-table { width:100%; border-collapse:collapse; font-size:.92rem; }
+        .sales-table th,.sales-table td { padding:10px; border-bottom:1px solid #e8eaed; text-align:left; vertical-align:top; }
+        .sales-table th { color:#5d6268; background:#f6f7f8; font-size:.82rem; text-transform:uppercase; white-space:nowrap; }
+        .winner-badge { display:inline-block; padding:4px 8px; border-radius:999px; background:#fff1c9; color:#704700; font-size:.82rem; font-weight:700; }
+        .claim-button,.delete-sale { padding:7px 10px; font-size:.8rem; white-space:nowrap; }
+        .claim-button { background:#2e7d32; }
+        .delete-sale { background:#8b2e2e; }
+        .sale-actions { display:flex; gap:6px; }
+        .transfer-sale { padding:7px 10px; font-size:.8rem; white-space:nowrap; background:#315b8a; }
+        .transfer-dialog { width:min(560px,calc(100% - 32px)); border:0; border-radius:14px; padding:0; box-shadow:0 18px 60px #0005; }
+        .transfer-dialog::backdrop { background:#17171788; }
+        .transfer-content { padding:24px; }
+        .transfer-content h2 { margin:0 0 8px; color:#8f2525; }
+        .transfer-content p { color:#666; line-height:1.45; }
+        .transfer-content label { margin-top:12px; }
+        .transfer-actions { display:flex; justify-content:flex-end; gap:10px; margin-top:18px; }
+        .empty-row { color:#777; text-align:center !important; padding:22px !important; }
+        .admin-tabs { display:flex; gap:6px; margin:18px 0 22px; padding:5px; overflow-x:auto; border-radius:10px; background:#f1f2f4; }
+        .admin-tabs button { flex:1 0 auto; padding:10px 14px; background:transparent; color:#555; }
+        .admin-tabs button[aria-selected="true"] { background:#fff; color:#8f2525; box-shadow:0 1px 5px #0002; }
+        .admin-tab { display:none; }
+        .admin-tab.active { display:block; }
+        .admin-tabs [hidden], .admin-tab[hidden] { display:none !important; }
+        .permission-card { padding:18px; border:1px solid #e2e5e9; border-radius:12px; background:#fafbfc; }
+        .permission-checks { display:flex; flex-wrap:wrap; gap:14px 22px; margin:12px 0; }
+        .permission-checks label { display:flex; align-items:center; gap:7px; }
+        .ticket-stats-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin:18px 0; }
+        .ticket-stat-card { padding:22px; border:1px solid #e3e7ec; border-radius:14px; background:#fafbfc; }
+        .ticket-stat-card strong { display:block; margin-top:8px; font-size:clamp(1.6rem,3vw,2.4rem); font-variant-numeric:tabular-nums; }
+        .ticket-stat-card.sold { border-color:#bfe1c5; background:#f0faf2; color:#236b30; }
+        .ticket-stat-card.unsold { border-color:#f0d7a1; background:#fff9eb; color:#815b00; }
+        .ticket-stats-progress { width:100%; height:16px; accent-color:#2e7d32; }
+        @media(max-width:700px) { .ticket-stats-grid { grid-template-columns:1fr; } }
+        .section-title { margin:8px 0 6px; color:#332b2b; font-size:1.3rem; }
+        .section-description { margin:0 0 18px; color:#6d6d6d; }
+        #adminContent > h1 { margin:18px 0 14px; }
+        .sales-panel { max-width: none; }
+        .sales-form { grid-template-columns:repeat(2,minmax(0,1fr)); }
+        .sales-table-wrap { max-height: min(58vh, 680px); }
+        .results-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
+        .result-card { padding:18px; }
+        .config-panel { max-width: none; }
+        @media(min-width:1500px) { .results-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+        @media(max-width:760px) { .panel { width:auto; margin:12px; padding:20px; } .sales-form { grid-template-columns:1fr; } .sales-form .wide { grid-column:auto; } }
+        @media(max-width:650px) { .results-grid { grid-template-columns:1fr; } .results-actions { align-items:stretch; flex-direction:column; } .results-actions button { width:100%; } }
     </style>
 </head>
 <body>
+    <main>
+        <section class="panel login" id="loginPanel">
+            <h1>🔒 Đăng nhập quản trị</h1>
+            <p class="muted">Dùng tài khoản email/mật khẩu đã tạo trong Firebase Authentication.</p>
+            <form id="loginForm">
+                <label for="email">Email</label>
+                <input id="email" type="email" autocomplete="username" required>
+                <label for="password">Mật khẩu</label>
+                <input id="password" type="password" autocomplete="current-password" required>
+                <p><button id="loginButton" type="submit">ĐĂNG NHẬP</button></p>
+            </form>
+            <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
+        </section>
 
-<div id="loginOverlay">
-    <div class="login-box">
-        <h2>🔒 ADMIN LOGIN V1.0.1</h2>
-        <input type="password" id="adminPassword" placeholder="Nhập mã truy cập...">
-        <button class="btn-update" onclick="checkLogin()">ĐĂNG NHẬP</button>
+        <section class="panel" id="adminContent">
+            <div class="topline"><strong id="signedInAs"></strong><button id="logoutButton" class="secondary" type="button">ĐĂNG XUẤT</button></div>
+            <h1>⚙️ Quản trị kết quả</h1>
+            <nav class="admin-tabs" role="tablist" aria-label="Khu vực quản trị">
+                <button type="button" role="tab" aria-selected="true" aria-controls="tabResults" data-tab="tabResults">🏆 Kết quả</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="tabConfig" data-tab="tabConfig">⚙️ Cơ cấu giải</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="tabSales" data-tab="tabSales">🎟️ Vé đã bán</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="tabWinners" data-tab="tabWinners">🎁 Người trúng & phát quà</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="tabPermissions" data-tab="tabPermissions" id="permissionsTab" hidden>🔐 Phân quyền</button>
+                <button type="button" role="tab" aria-selected="false" aria-controls="tabTicketStats" data-tab="tabTicketStats" id="ticketStatsTab" hidden>📊 Thống kê vé</button>
+            </nav>
+
+            <section class="admin-tab active" id="tabResults" role="tabpanel">
+              <h2 class="section-title">Kết quả các hạng giải</h2>
+              <p class="section-description">Nhập số cách nhau bởi dấu phẩy hoặc xuống dòng. Có thể cập nhật từng giải; ô để trống sẽ giữ nguyên kết quả.</p>
+              <form id="resultsForm">
+                  <div class="results-grid" id="inputControls"></div>
+                  <div class="results-actions"><span class="hint">Mở khóa từng hạng giải trước khi sửa.</span><button id="saveButton" type="submit">LƯU KẾT QUẢ</button></div>
+                  <div id="resultsSaveStatus" class="save-status" role="status" aria-live="polite">Chưa có thay đổi cần lưu.</div>
+              </form>
+              <div id="adminStatus" class="status" role="status" aria-live="polite"></div>
+            </section>
+
+            <section class="admin-tab" id="tabConfig" role="tabpanel">
+            <section class="config-toggle">
+              <h2>⚙️ Cấu hình tên và số lượng giải</h2>
+              <section class="config-panel" aria-labelledby="countsTitle">
+                <section class="ticket-range-config" aria-labelledby="ticketRangeTitle">
+                  <h3 id="ticketRangeTitle">Phạm vi số vé</h3>
+                  <p>Đặt số vé nhỏ nhất và lớn nhất. Thống kê đã bán/chưa bán sẽ tính trong phạm vi này.</p>
+                  <div class="range-fields">
+                    <div><label for="ticketRangeStart">Từ số vé</label><input id="ticketRangeStart" inputmode="numeric" maxlength="4" value="0000"></div>
+                    <div><label for="ticketRangeEnd">Đến số vé</label><input id="ticketRangeEnd" inputmode="numeric" maxlength="4" value="9999"></div>
+                  </div>
+                  <div id="ticketRangeConfigPreview" class="range-preview">Mặc định: 0000 đến 9999 · 10.000 vé</div>
+                </section>
+                <div class="config-heading">
+                    <div><h2 id="countsTitle">Cơ cấu giải thưởng</h2><p>Đặt số lượng cho từng hạng giải.</p></div>
+                    <div class="config-total"><strong id="totalPrizeCount">0</strong><span>tổng số giải</span></div>
+                </div>
+                <div class="config-grid" id="prizeCountControls"></div>
+                <div class="config-actions"><span class="config-hint">Tên và số lượng sẽ cập nhật trên trang tra cứu.</span><button id="addPrizeButton" type="button" class="secondary">＋ THÊM GIẢI</button><button id="saveCountsButton" type="button">LƯU CẤU HÌNH</button></div>
+                <div id="configSaveStatus" class="save-status" role="status" aria-live="polite">Chưa có thay đổi cần lưu.</div>
+              </section>
+            </section>
+            </section>
+
+            <section class="admin-tab sales-panel" id="tabSales" role="tabpanel" aria-labelledby="salesTitle">
+                <h2 id="salesTitle">🎟️ Vé đã bán & phát quà</h2>
+                <p class="muted">Lưu người mua cùng số vé. Khi số trúng đã có, danh sách người trúng sẽ được đối chiếu tự động. Thông tin này chỉ dành cho admin.</p>
+                <form id="saleForm" class="sales-form">
+                    <div class="field"><label for="buyerName">Tên người mua *</label><input id="buyerName" maxlength="100" required placeholder="Họ tên"></div>
+                    <div class="field"><label for="buyerContact">Số điện thoại / liên hệ (không bắt buộc)</label><input id="buyerContact" maxlength="40" placeholder="Số điện thoại"></div>
+                    <div class="field wide"><label>Số vé *</label>
+                        <div class="ticket-mode" role="group" aria-label="Cách nhập số vé">
+                            <button type="button" class="active" id="listModeButton" aria-pressed="true">Nhập danh sách</button>
+                            <button type="button" id="rangeModeButton" aria-pressed="false">Nhập theo dải</button>
+                        </div>
+                        <div id="ticketListMode"><textarea id="buyerTickets" placeholder="Nhập các số vé, phân cách bằng dấu phẩy hoặc xuống dòng"></textarea></div>
+                        <div id="ticketRangeMode" hidden>
+                            <div class="range-fields"><div><label for="ticketFrom">Từ số</label><input id="ticketFrom" inputmode="numeric" maxlength="4" placeholder="0001"></div><div><label for="ticketTo">Đến số</label><input id="ticketTo" inputmode="numeric" maxlength="4" placeholder="0100"></div></div>
+                            <div id="rangePreview" class="range-preview">Nhập số đầu và số cuối (tối đa 1000 vé mỗi lần).</div>
+                        </div>
+                    </div>
+                    <div class="field wide"><button id="addSaleButton" type="submit">LƯU THÔNG TIN VÉ</button><span id="salesSaveStatus" class="save-status" role="status" aria-live="polite"></span></div>
+                </form>
+                <div class="table-toolbar"><button type="button" class="export-button" id="exportSalesButton">⬇ Xuất danh sách vé (.xlsx)</button></div>
+                <div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>Người mua</th><th>Liên hệ</th><th>Số vé</th><th>Người tạo</th><th>Trạng thái</th><th></th></tr></thead><tbody id="salesTableBody"><tr><td class="empty-row" colspan="6">Đang tải danh sách vé…</td></tr></tbody></table></div>
+            </section>
+            <section class="admin-tab sales-panel" id="tabWinners" role="tabpanel">
+                <h2 style="margin-top:0">🏆 Danh sách người trúng & nhận quà</h2>
+                <p class="muted">Tự đối chiếu vé đã bán với kết quả. Đánh dấu sau khi đã trao quà.</p>
+                <div class="table-toolbar"><button type="button" class="export-button" id="exportWinnersButton">⬇ Xuất danh sách trúng (.xlsx)</button></div>
+                <div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>Người trúng</th><th>Liên hệ</th><th>Số vé</th><th>Hạng giải</th><th>Phát quà</th></tr></thead><tbody id="winnersTableBody"><tr><td class="empty-row" colspan="5">Chưa có người trúng đối chiếu được.</td></tr></tbody></table></div>
+            </section>
+            <section class="admin-tab" id="tabPermissions" role="tabpanel" hidden>
+                <h2 class="section-title">🔐 Phân quyền tài khoản</h2>
+                <p class="section-description">Tạo tài khoản trước trong Firebase Authentication, sau đó nhập UID và chọn các khu vực được phép truy cập.</p>
+                <form id="permissionForm" class="permission-card">
+                    <label for="permissionUid">UID tài khoản Firebase</label>
+                    <input id="permissionUid" required autocomplete="off" placeholder="Dán UID từ Firebase Authentication">
+                    <label for="permissionEmail">Email ghi chú (không bắt buộc)</label>
+                    <input id="permissionEmail" type="email" placeholder="user@example.com">
+                    <div class="permission-checks">
+                        <label><input type="checkbox" name="permission" value="results"> Kết quả</label>
+                        <label><input type="checkbox" name="permission" value="config"> Cơ cấu giải</label>
+                        <label><input type="checkbox" name="permission" value="sales"> Vé đã bán</label>
+                        <label><input type="checkbox" name="permission" value="winners"> Người trúng & phát quà</label>
+                    </div>
+                    <button type="submit">LƯU PHÂN QUYỀN</button>
+                    <span id="permissionStatus" class="save-status" role="status" aria-live="polite"></span>
+                </form>
+                <div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>Email ghi chú</th><th>UID</th><th>Tab được phép</th><th></th></tr></thead><tbody id="permissionsTableBody"></tbody></table></div>
+            </section>
+            <section class="admin-tab" id="tabTicketStats" role="tabpanel" hidden>
+                <h2 class="section-title">📊 Thống kê vé</h2>
+                <p class="section-description">Thống kê vé đang thuộc về người mua hiện tại. Dải vé được tính từ 0000 đến 9999; vé chuyển chủ chỉ được tính một lần.</p>
+                <div class="ticket-stats-grid">
+                    <div class="ticket-stat-card"><span>Tổng số vé trong dải</span><strong id="ticketTotalStat">10.000</strong></div>
+                    <div class="ticket-stat-card sold"><span>Vé đã bán</span><strong id="ticketSoldStat">Đang tải…</strong></div>
+                    <div class="ticket-stat-card unsold"><span>Vé chưa bán</span><strong id="ticketUnsoldStat">Đang tải…</strong></div>
+                </div>
+                <label for="ticketSoldProgress">Tỷ lệ đã bán: <span id="ticketSoldPercent">—</span></label>
+                <progress class="ticket-stats-progress" id="ticketSoldProgress" max="10000" value="0"></progress>
+                <p class="muted" id="ticketStatsIntegrity" role="status" aria-live="polite">Đang tải dữ liệu thống kê…</p>
+                <p class="save-status" id="ticketStatsUpdated"></p>
+                <h3>Vé theo tài khoản ghi nhận</h3>
+                <p class="muted">Số liệu dựa trên vé hiện còn trong các lô và trường “Người tạo”. Vé chuyển nhượng được tính theo tài khoản đã ghi nhận lô vé hiện tại.</p>
+                <div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>Tài khoản ghi nhận</th><th>Số lô vé</th><th>Số vé</th></tr></thead><tbody id="sellerStatsBody"><tr><td class="empty-row" colspan="3">Đang tải…</td></tr></tbody></table></div>
+            </section>
+        </section>
+    </main>
+
+    <div class="popup-backdrop" id="popupBackdrop" role="presentation">
+        <section class="popup" id="popupDialog" role="alertdialog" aria-modal="true" aria-labelledby="popupTitle" aria-describedby="popupMessage" data-kind="error">
+            <h2 id="popupTitle">⚠️ Thông báo</h2>
+            <p class="popup-message" id="popupMessage"></p>
+            <button id="popupClose" type="button">ĐÃ HIỂU</button>
+        </section>
     </div>
-</div>
 
-<div class="admin-box" id="adminContent">
-    <div id="currentUserInfo" style="text-align: right; font-weight: bold; color: #2e7d32;"></div>
-    <h2>⚙️ QUẢN TRỊ KẾT QUẢ</h2>
-    <div class="timer-info" id="sessionTimer">Phiên làm việc: 15:00</div>
-    
-    <div id="inputControls"></div>
-    <button class="btn-update" onclick="uploadToFirebase()">🚀 CẬP NHẬT LÊN HỆ THỐNG</button>
-
-    <div id="userManagementSection" class="log-section">
-        <h3>👥 QUẢN LÝ NGƯỜI DÙNG</h3>
-        <div class="user-form">
-            <input type="text" id="newUserName" placeholder="Tên người dùng..." style="margin-bottom: 10px;">
-            <input type="text" id="newUserPass" placeholder="Mật khẩu truy cập..." style="margin-bottom: 10px;">
-            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                <input type="checkbox" id="newUserIsSuper" style="width: auto;"> Quyền Admin Tổng (Super Admin)
-            </label>
-            <button class="btn-update" onclick="addUser()" style="background: #1565c0; margin-top: 10px;">➕ THÊM / CẬP NHẬT USER</button>
-        </div>
-        <table class="user-table">
-            <thead>
-                <tr>
-                    <th>Tên Admin</th>
-                    <th>Vai trò</th>
-                    <th>Thao tác</th>
-                </tr>
-            </thead>
-            <tbody id="userListTable"></tbody>
-        </table>
-    </div>
-
-    <div id="superAdminLogs" class="log-section">
-        <h3>📜 NHẬT KÝ HỆ THỐNG</h3>
-        <div class="log-container" id="logList">Đang tải nhật ký...</div>
-    </div>
-
-    <button class="btn-update btn-logout" onclick="logout()">THOÁT</button>
-</div>
+    <dialog class="transfer-dialog" id="transferDialog" aria-labelledby="transferTitle">
+        <form class="transfer-content" id="transferForm">
+            <h2 id="transferTitle">Chuyển vé cho người khác</h2>
+            <p id="transferOwnedTickets"></p>
+            <label for="transferBuyerName">Tên người nhận *</label>
+            <input id="transferBuyerName" maxlength="100" required>
+            <label for="transferBuyerContact">Liên hệ người nhận</label>
+            <input id="transferBuyerContact" maxlength="40" placeholder="Không bắt buộc">
+            <label for="transferTickets">Các số vé chuyển *</label>
+            <textarea id="transferTickets" required placeholder="Nhập các số vé chuyển, phân cách bằng dấu phẩy hoặc xuống dòng"></textarea>
+            <div class="transfer-actions"><button id="cancelTransfer" type="button" class="secondary">HỦY</button><button id="confirmTransfer" type="submit">XÁC NHẬN CHUYỂN</button></div>
+            <div id="transferStatus" class="save-status" role="status" aria-live="polite"></div>
+        </form>
+    </dialog>
+    <dialog class="transfer-dialog" id="historyDialog" aria-labelledby="historyTitle">
+        <section class="transfer-content">
+            <h2 id="historyTitle">Lịch sử vé</h2>
+            <p id="historySubtitle"></p>
+            <div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>Thời gian</th><th>Thao tác</th><th>Người thao tác</th><th>Chi tiết</th></tr></thead><tbody id="historyTableBody"></tbody></table></div>
+            <div class="transfer-actions"><button id="closeHistory" type="button" class="secondary">ĐÓNG</button></div>
+        </section>
+    </dialog>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, set, push, onValue, serverTimestamp, query, limitToLast, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getDatabase, ref, get, set, push, remove, update, onValue, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    const encodedURL = "aHR0cHM6Ly9zb3hvbmhhZ2lvYW4tZGVmYXVsdC1ydGRiLmFzaWEtc291dGhlYXN0MS5maXJlYmFzZWRhdGFiYXNlLmFwcA==";
-    const firebaseConfig = { databaseURL: atob(encodedURL) };
+    // Lấy cấu hình từ Firebase Console → Project settings → General → Your apps → Web app.
+    // Firebase web apiKey là định danh công khai của ứng dụng, không phải Admin/service-account key.
+    const firebaseConfig = {
+        apiKey: "AIzaSyBZ34TfG0jwR_vut3zXPVSlqR_gs6pXftw",
+        authDomain: "soxonhagioan.firebaseapp.com",
+        databaseURL: "https://soxonhagioan-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "soxonhagioan",
+        appId: "1:595855532450:web:bec40b9f44ffbf4efed2fb"
+    };
+    const configMissing = !firebaseConfig.apiKey.startsWith('AIza') || firebaseConfig.appId.startsWith('PASTE_');
+    if (configMissing) {
+        document.getElementById('loginStatus').textContent = 'Thiếu cấu hình Firebase Web App. Mở admingioan.html, điền apiKey và appId từ Project settings → Your apps → SDK setup and configuration.';
+        throw new Error('Firebase web app configuration is incomplete.');
+    }
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db = getDatabase(app);
-
-    let currentUser = null;
-    let timeLeft = 15 * 60; 
-    const config = [
-        { key: 'db', name: 'Giải Đặc Biệt', target: 1 },
-        { key: 'g1', name: 'Giải Nhất', target: 2 },
-        { key: 'g2', name: 'Giải Nhì', target: 3 },
-        { key: 'g3', name: 'Giải Ba', target: 10 },
-        { key: 'g4', name: 'Giải Tư', target: 30 },
-        { key: 'g5', name: 'Giải Năm', target: 40 },
-        { key: 'g6', name: 'Giải Sáu', target: 50 },
-        { key: 'gkk', name: 'Giải Khuyến Khích', target: 100 }
+    const defaultConfig = [
+        { key: 'db', name: 'Giải Đặc Biệt', target: 1 }, { key: 'g1', name: 'Giải Nhất', target: 2 },
+        { key: 'g2', name: 'Giải Nhì', target: 3 }, { key: 'g3', name: 'Giải Ba', target: 10 },
+        { key: 'g4', name: 'Giải Tư', target: 30 }, { key: 'g5', name: 'Giải Năm', target: 40 },
+        { key: 'g6', name: 'Giải Sáu', target: 50 }, { key: 'gkk', name: 'Giải Khuyến Khích', target: 100 }
     ];
+    let config = defaultConfig.map((prize) => ({ ...prize }));
+    let ticketRange = { start: '0000', end: '9999' };
+    const defaultCounts = Object.fromEntries(defaultConfig.map((prize) => [prize.key, prize.target]));
+    let currentResults = {};
+    let salesData = {};
+    let claimsData = {};
+    let historyData = {};
+    let salesListenersStarted = false;
+    let stopSalesListener = null;
+    let stopClaimsListener = null;
+    let stopHistoryListener = null;
+    const controls = document.getElementById('inputControls');
+    const countControls = document.getElementById('prizeCountControls');
+    function buildControls() {
+        const previousValues = Object.fromEntries(config.map((prize) => [prize.key, document.getElementById(`in_${prize.key}`)?.value ?? null]));
+        controls.replaceChildren();
+        countControls.replaceChildren();
+        config.forEach((prize) => {
+            const countSection = document.createElement('div');
+            countSection.className = 'count-card';
+            const countLabel = document.createElement('label');
+            countLabel.htmlFor = `name_${prize.key}`;
+            countLabel.textContent = 'Tên hạng giải';
+            const nameInput = document.createElement('input');
+            nameInput.id = `name_${prize.key}`;
+            nameInput.className = 'name-input';
+            nameInput.type = 'text';
+            nameInput.maxLength = 40;
+            nameInput.value = prize.name;
+            nameInput.required = true;
+            nameInput.setAttribute('aria-label', `Tên ${prize.name}`);
+            nameInput.addEventListener('input', () => setSaveStatus(configSaveStatus, 'dirty', 'Có thay đổi chưa lưu.'));
+            const countInput = document.createElement('input');
+            countInput.id = `target_${prize.key}`;
+            countInput.type = 'number';
+            countInput.min = '0';
+            countInput.max = '1000';
+            countInput.step = '1';
+            countInput.value = String(prize.target);
+            countInput.required = true;
+            countInput.addEventListener('input', updateTotalPrizeCount);
+            countInput.addEventListener('input', () => setSaveStatus(configSaveStatus, 'dirty', 'Có thay đổi chưa lưu.'));
+            countInput.setAttribute('aria-label', `Số lượng ${prize.name}`);
+            countSection.append(countLabel, nameInput, countInput);
+            if (prize.custom) {
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'remove-prize';
+                removeButton.textContent = 'Xóa hạng giải';
+                removeButton.addEventListener('click', () => {
+                    const input = document.getElementById(`in_${prize.key}`);
+                    const hasResults = Boolean(input?.value.trim() || input?.dataset.originalValue);
+                    if (hasResults && !confirm(`Xóa ${prize.name} và các kết quả đang nhập của hạng này?`)) return;
+                    config = config.filter((item) => item.key !== prize.key);
+                    buildControls();
+                    updateTotalPrizeCount();
+                    setSaveStatus(configSaveStatus, 'dirty', 'Có thay đổi chưa lưu.');
+                });
+                countSection.append(removeButton);
+            }
+            countControls.append(countSection);
 
-    const encodePass = (p) => btoa(btoa(p));
+            const section = document.createElement('section');
+            section.className = 'result-card';
+            section.classList.add('is-locked');
+            const cardHead = document.createElement('div');
+            cardHead.className = 'result-card-head';
+            const label = document.createElement('label');
+            label.className = 'result-name';
+            label.htmlFor = `in_${prize.key}`;
+            const count = document.createElement('span');
+            count.id = `count_${prize.key}`;
+            count.className = 'result-progress';
+            count.textContent = `0/${prize.target}`;
+            label.textContent = prize.name;
+            const lockButton = document.createElement('button');
+            lockButton.id = `lock_${prize.key}`;
+            lockButton.type = 'button';
+            lockButton.className = 'result-lock';
+            lockButton.textContent = '🔒 MỞ KHÓA';
+            lockButton.setAttribute('aria-pressed', 'false');
+            cardHead.append(label, count, lockButton);
+            const input = document.createElement(prize.target >= 10 ? 'textarea' : 'input');
+            input.id = `in_${prize.key}`;
+            input.dataset.key = prize.key;
+            input.placeholder = 'Nhập số, phân cách bằng dấu phẩy hoặc xuống dòng';
+            input.disabled = true;
+            input.addEventListener('input', () => updateCount(prize));
+            input.addEventListener('input', () => setSaveStatus(resultsSaveStatus, 'dirty', 'Có thay đổi chưa lưu.'));
+            if (previousValues[prize.key] !== null) input.value = previousValues[prize.key];
+            lockButton.addEventListener('click', () => {
+                const unlocked = input.disabled;
+                input.disabled = !unlocked;
+                lockButton.classList.toggle('unlocked', unlocked);
+                lockButton.textContent = unlocked ? '🔓 ĐANG MỞ' : '🔒 MỞ KHÓA';
+                lockButton.setAttribute('aria-pressed', String(unlocked));
+                section.classList.toggle('is-locked', !unlocked);
+                if (unlocked) input.focus();
+            });
+            const foot = document.createElement('div');
+            foot.className = 'result-card-foot';
+            foot.textContent = `Tối đa ${prize.target} số · mỗi số gồm 4 chữ số`;
+            section.append(cardHead, input, foot);
+            controls.append(section);
+        });
+    }
+    buildControls();
+    function updateTotalPrizeCount() {
+        const total = config.reduce((sum, prize) => {
+            const field = document.getElementById(`target_${prize.key}`);
+            const value = field ? Number(field.value) : prize.target;
+            return sum + (Number.isSafeInteger(value) && value > 0 ? value : 0);
+        }, 0);
+        document.getElementById('totalPrizeCount').textContent = total.toLocaleString('vi-VN');
+    }
+    updateTotalPrizeCount();
 
-    // Khởi tạo giao diện nhập liệu
-    const container = document.getElementById('inputControls');
-    config.forEach(p => {
-        const isLarge = ['g4', 'g5', 'g6', 'gkk'].includes(p.key);
-        container.innerHTML += `
-            <div class="prize-group">
-                <label>${p.name}: <span class="count-badge" id="badge_${p.key}">0/${p.target}</span></label>
-                ${isLarge 
-                    ? `<textarea id="in_${p.key}" oninput="updateBadge('${p.key}')" placeholder="Dán dãy số..."></textarea>` 
-                    : `<input type="text" id="in_${p.key}" oninput="updateBadge('${p.key}')" placeholder="Nhập số...">`
-                }
-                <div class="status-info" id="status_${p.key}">Đang tải...</div>
-            </div>`;
+    const loginPanel = document.getElementById('loginPanel');
+    const adminPanel = document.getElementById('adminContent');
+    const loginStatus = document.getElementById('loginStatus');
+    const adminStatus = document.getElementById('adminStatus');
+    const loginButton = document.getElementById('loginButton');
+    const saveButton = document.getElementById('saveButton');
+    document.querySelectorAll('.admin-tabs [data-tab]').forEach((tabButton) => {
+        tabButton.addEventListener('click', () => {
+            if (tabButton.hidden) return;
+            document.querySelectorAll('.admin-tabs [data-tab]').forEach((button) => button.setAttribute('aria-selected', String(button === tabButton)));
+            document.querySelectorAll('.admin-tab').forEach((panel) => {
+                const active = panel.id === tabButton.dataset.tab;
+                panel.classList.toggle('active', active);
+                if (panel.id === 'tabPermissions' || panel.id === 'tabTicketStats') panel.hidden = !active || !canManageAccess;
+            });
+        });
+    });
+    let isSuperAdmin = false;
+    let canManageAccess = false;
+    let currentPermissions = {};
+    let hasExplicitAccess = false;
+    const tabKeys = ['results', 'config', 'sales', 'winners'];
+    function canAccessTab(key) {
+        if (hasExplicitAccess) return currentPermissions[key] === true;
+        return isSuperAdmin;
+    }
+    function applyPermissions(permissions) {
+        currentPermissions = permissions || {};
+        const granted = tabKeys.filter(canAccessTab);
+        const ids = { results:'tabResults', config:'tabConfig', sales:'tabSales', winners:'tabWinners' };
+        for (const key of tabKeys) {
+            const button = document.querySelector(`.admin-tabs [data-tab="${ids[key]}"]`);
+            const panel = document.getElementById(ids[key]);
+            button.hidden = !granted.includes(key);
+            panel.hidden = !granted.includes(key);
+            panel.classList.remove('active');
+            button.setAttribute('aria-selected', 'false');
+        }
+        const managerTab = document.getElementById('permissionsTab');
+        const managerPanel = document.getElementById('tabPermissions');
+        managerTab.hidden = !canManageAccess;
+        managerPanel.hidden = true;
+        managerPanel.classList.remove('active');
+        const statsTab = document.getElementById('ticketStatsTab');
+        const statsPanel = document.getElementById('tabTicketStats');
+        statsTab.hidden = !canManageAccess;
+        statsPanel.hidden = true;
+        statsPanel.classList.remove('active');
+        if (granted.length) document.querySelector(`.admin-tabs [data-tab="${ids[granted[0]]}"]`).click();
+    }
+    const configSaveStatus = document.getElementById('configSaveStatus');
+    const resultsSaveStatus = document.getElementById('resultsSaveStatus');
+    function formatSavedTime(timestamp) {
+        if (!Number.isFinite(timestamp) || timestamp <= 0) return 'Chưa có lần lưu gần đây.';
+        return new Intl.DateTimeFormat('vi-VN', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Asia/Ho_Chi_Minh' }).format(timestamp);
+    }
+    function setSaveStatus(element, state, message) {
+        element.dataset.state = state;
+        element.textContent = message;
+    }
+    async function loadSaveTimes() {
+        const snapshot = await get(ref(db, 'admin_meta'));
+        const meta = snapshot.val() || {};
+        setSaveStatus(configSaveStatus, 'saved', `Cập nhật gần nhất: ${formatSavedTime(meta.last_config_update)}`);
+        setSaveStatus(resultsSaveStatus, 'saved', `Cập nhật gần nhất: ${formatSavedTime(meta.last_results_update)}`);
+    }
+    const permissionLabels = { results:'Kết quả', config:'Cơ cấu giải', sales:'Vé đã bán', winners:'Người trúng & phát quà' };
+    async function loadManagedPermissions() {
+        const snapshot = await get(ref(db, 'admin_access'));
+        const records = snapshot.val() || {};
+        const body = document.getElementById('permissionsTableBody');
+        body.replaceChildren();
+        const entries = Object.entries(records);
+        if (!entries.length) {
+            const row = body.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 4;
+            cell.className = 'empty-row';
+            cell.textContent = 'Chưa cấp quyền cho tài khoản nào.';
+            return;
+        }
+        entries.forEach(([uid, record]) => {
+            const row = body.insertRow();
+            addCell(row, record.email || '—');
+            addCell(row, uid);
+            addCell(row, tabKeys.filter((key) => record.tabs?.[key] === true).map((key) => permissionLabels[key]).join(', ') || 'Không có tab');
+            const action = row.insertCell();
+            const edit = document.createElement('button');
+            edit.type = 'button'; edit.className = 'secondary'; edit.textContent = 'Sửa';
+            edit.addEventListener('click', () => {
+                document.getElementById('permissionUid').value = uid;
+                document.getElementById('permissionEmail').value = record.email || '';
+                document.querySelectorAll('#permissionForm [name="permission"]').forEach((checkbox) => {
+                    checkbox.checked = record.tabs?.[checkbox.value] === true;
+                });
+                document.getElementById('permissionUid').focus();
+            });
+            const revoke = document.createElement('button');
+            revoke.type = 'button'; revoke.className = 'delete-sale'; revoke.textContent = 'Thu hồi';
+            revoke.addEventListener('click', async () => {
+                if (!confirm('Thu hồi toàn bộ quyền truy cập của tài khoản này?')) return;
+                try { await remove(ref(db, `admin_access/${uid}`)); await loadManagedPermissions(); }
+                catch (error) { showPopup(showError(error)); }
+            });
+            action.append(edit, revoke);
+        });
+    }
+    function parseNumbers(input) {
+        return input.value.split(/[\s,]+/).map((number) => number.trim()).filter(Boolean);
+    }
+    function updateCount(prize) {
+        const numbers = parseNumbers(document.getElementById(`in_${prize.key}`));
+        const badge = document.getElementById(`count_${prize.key}`);
+        badge.textContent = `${numbers.length}/${prize.target}`;
+        badge.classList.toggle('complete', numbers.length === prize.target);
+    }
+    const popupBackdrop = document.getElementById('popupBackdrop');
+    const popupDialog = document.getElementById('popupDialog');
+    const popupMessage = document.getElementById('popupMessage');
+    let previousFocus = null;
+    function showPopup(message, kind = 'error') {
+        previousFocus = document.activeElement;
+        popupDialog.dataset.kind = kind;
+        document.getElementById('popupTitle').textContent = kind === 'success' ? '✅ Thành công' : '⚠️ Vui lòng kiểm tra';
+        popupMessage.textContent = message;
+        popupBackdrop.classList.add('open');
+        document.getElementById('popupClose').focus();
+    }
+    function showValidationPopup(message, inputId) {
+        const input = document.getElementById(inputId);
+        if (input?.disabled && input.dataset.key) {
+            input.disabled = false;
+            const lockButton = document.getElementById(`lock_${input.dataset.key}`);
+            lockButton.classList.add('unlocked');
+            lockButton.textContent = '🔓 ĐANG MỞ';
+            lockButton.setAttribute('aria-pressed', 'true');
+            input.closest('.result-card').classList.remove('is-locked');
+        }
+        showPopup(message);
+        document.getElementById('popupClose').dataset.focusTarget = inputId;
+    }
+    function closePopup() {
+        popupBackdrop.classList.remove('open');
+        const focusTargetId = document.getElementById('popupClose').dataset.focusTarget;
+        document.getElementById('popupClose').dataset.focusTarget = '';
+        const focusTarget = focusTargetId ? document.getElementById(focusTargetId) : previousFocus;
+        if (focusTarget && typeof focusTarget.focus === 'function') {
+            focusTarget.focus();
+            if (typeof focusTarget.select === 'function') focusTarget.select();
+        }
+    }
+    document.getElementById('popupClose').addEventListener('click', closePopup);
+    popupBackdrop.addEventListener('click', (event) => { if (event.target === popupBackdrop) closePopup(); });
+    document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && popupBackdrop.classList.contains('open')) closePopup(); });
+    const showError = (error) => {
+        const messages = {
+            'auth/invalid-credential': 'Email hoặc mật khẩu không đúng.',
+            'auth/invalid-email': 'Địa chỉ email không hợp lệ.',
+            'auth/too-many-requests': 'Đăng nhập tạm thời bị giới hạn. Hãy thử lại sau.',
+            'PERMISSION_DENIED': 'Firebase từ chối thao tác. Kiểm tra UID quản trị trong Database Rules.'
+        };
+        return messages[error.code] || `Thao tác thất bại (${error.code || 'lỗi'}). Kiểm tra Firebase Authentication và Database Rules.`;
+    };
+
+    async function loadResults() {
+        const snapshot = await get(ref(db, 'lottery_results'));
+        const data = snapshot.val() || {};
+        currentResults = data;
+        config.forEach((prize) => {
+            const value = data[prize.key];
+            const input = document.getElementById(`in_${prize.key}`);
+            const numbers = Array.isArray(value) ? value : (value ? [String(value)] : []);
+            input.dataset.originalValue = numbers.join(',');
+            input.value = numbers.join(', ');
+            updateCount(prize);
+        });
+        renderSalesAndWinners();
+    }
+
+    function addCell(row, text) {
+        const cell = document.createElement('td');
+        cell.textContent = text;
+        row.append(cell);
+        return cell;
+    }
+    function openTransferDialog(saleId, sale) {
+        activeTransferSaleId = saleId;
+        const owned = Array.isArray(sale.tickets) ? sale.tickets.map(String) : [];
+        document.getElementById('transferTitle').textContent = `Chuyển vé từ ${sale.buyerName || 'người mua'}`;
+        document.getElementById('transferOwnedTickets').textContent = `Đang sở hữu ${owned.length} vé. Chỉ nhập các vé cần chuyển; các vé còn lại vẫn ở chủ cũ.`;
+        document.getElementById('transferBuyerName').value = '';
+        document.getElementById('transferBuyerContact').value = '';
+        document.getElementById('transferTickets').value = '';
+        document.getElementById('transferStatus').textContent = '';
+        document.getElementById('transferDialog').showModal();
+        document.getElementById('transferBuyerName').focus();
+    }
+    function openHistoryDialog(saleId, sale) {
+        const body = document.getElementById('historyTableBody');
+        body.replaceChildren();
+        document.getElementById('historySubtitle').textContent = `${sale.buyerName || 'Người mua'} · ${Array.isArray(sale.tickets) ? sale.tickets.length : 0} vé hiện còn trong lô`;
+        const entries = Object.entries(historyData).filter(([, event]) => event.saleId === saleId || event.fromSaleId === saleId || event.toSaleId === saleId);
+        if (!entries.some(([, event]) => event.type === 'sale_created' && event.saleId === saleId) && sale.createdAt) {
+            entries.push([`legacy_${saleId}`, { type: 'sale_created', saleId, buyerName: sale.buyerName, tickets: sale.tickets, actor: sale.createdBy, timestamp: sale.createdAt }]);
+        }
+        entries.sort((a, b) => (b[1].timestamp || 0) - (a[1].timestamp || 0));
+        if (!entries.length) {
+            const row = body.insertRow();
+            const cell = addCell(row, 'Chưa có nhật ký cho lô vé này.');
+            cell.colSpan = 4;
+            cell.className = 'empty-row';
+        }
+        entries.forEach(([, item]) => {
+            const row = body.insertRow();
+            addCell(row, formatSavedTime(item.timestamp));
+            addCell(row, item.type === 'ticket_transfer' ? 'Chuyển vé' : 'Tạo lô vé');
+            addCell(row, item.actor || 'Không ghi nhận');
+            const details = item.type === 'ticket_transfer'
+                ? `${item.fromBuyer || '—'} → ${item.toBuyer || '—'} · Vé: ${(item.tickets || []).join(', ')}`
+                : `${item.buyerName || sale.buyerName || '—'} · Vé: ${(item.tickets || []).join(', ')}`;
+            addCell(row, details);
+        });
+        document.getElementById('historyDialog').showModal();
+    }
+    function getWinningPrize(ticket) {
+        return config.find((prize) => {
+            const value = currentResults[prize.key];
+            const numbers = Array.isArray(value) ? value : (value ? [value] : []);
+            return numbers.some((number) => String(number) === ticket);
+        }) || null;
+    }
+    let activeTransferSaleId = null;
+    function renderSalesAndWinners() {
+        const salesBody = document.getElementById('salesTableBody');
+        const winnersBody = document.getElementById('winnersTableBody');
+        salesBody.replaceChildren();
+        winnersBody.replaceChildren();
+        const sales = Object.entries(salesData);
+        const winners = [];
+        if (!sales.length) {
+            const row = salesBody.insertRow();
+            const cell = addCell(row, 'Chưa có thông tin vé bán.');
+            cell.colSpan = 6;
+            cell.className = 'empty-row';
+        }
+        sales.reverse().forEach(([saleId, sale]) => {
+            const row = salesBody.insertRow();
+            addCell(row, sale.buyerName || '—');
+            addCell(row, sale.contact || '—');
+            const tickets = Array.isArray(sale.tickets) ? sale.tickets : [];
+            addCell(row, tickets.join(', '));
+            addCell(row, sale.createdBy || '—');
+            const winnersForSale = tickets.filter((ticket) => getWinningPrize(String(ticket)));
+            addCell(row, winnersForSale.length ? `${winnersForSale.length} vé trúng` : 'Chưa trúng');
+            const actionCell = row.insertCell();
+            const actions = document.createElement('div');
+            actions.className = 'sale-actions';
+            const historyButton = document.createElement('button');
+            historyButton.type = 'button';
+            historyButton.className = 'secondary';
+            historyButton.textContent = 'Lịch sử';
+            historyButton.addEventListener('click', () => openHistoryDialog(saleId, sale));
+            const transferButton = document.createElement('button');
+            transferButton.type = 'button';
+            transferButton.className = 'transfer-sale';
+            transferButton.textContent = 'Chuyển vé';
+            transferButton.disabled = tickets.length === 0;
+            transferButton.addEventListener('click', () => openTransferDialog(saleId, sale));
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'button';
+            deleteButton.className = 'delete-sale';
+            deleteButton.textContent = 'Xóa';
+            deleteButton.addEventListener('click', async () => {
+                if (!confirm(`Xóa thông tin vé của ${sale.buyerName || 'người mua này'}?`)) return;
+                try { await remove(ref(db, `ticket_sales/${saleId}`)); }
+                catch (error) { showPopup(showError(error)); }
+            });
+            actions.append(historyButton, transferButton, deleteButton);
+            actionCell.append(actions);
+            tickets.forEach((ticket) => {
+                const prize = getWinningPrize(String(ticket));
+                if (prize) winners.push({ saleId, sale, ticket: String(ticket), prize });
+            });
+        });
+
+        if (!winners.length) {
+            const row = winnersBody.insertRow();
+            const cell = addCell(row, 'Chưa có vé trúng trong danh sách đã bán.');
+            cell.colSpan = 5;
+            cell.className = 'empty-row';
+            return;
+        }
+        winners.forEach(({ saleId, sale, ticket, prize }) => {
+            const row = winnersBody.insertRow();
+            addCell(row, sale.buyerName || '—');
+            addCell(row, sale.contact || '—');
+            const ticketCell = row.insertCell();
+            const badge = document.createElement('span');
+            badge.className = 'winner-badge';
+            badge.textContent = ticket;
+            ticketCell.append(badge);
+            addCell(row, prize.name);
+            const claimCell = row.insertCell();
+            const claimed = claimsData[ticket]?.delivered === true;
+            const claimButton = document.createElement('button');
+            claimButton.type = 'button';
+            claimButton.className = 'claim-button';
+            claimButton.textContent = claimed ? 'Đã phát quà' : 'Đánh dấu đã phát';
+            claimButton.disabled = claimed;
+            claimButton.addEventListener('click', async () => {
+                try {
+                    await set(ref(db, `prize_claims/${ticket}`), { delivered: true, saleId, updatedAt: serverTimestamp() });
+                } catch (error) { showPopup(showError(error)); }
+            });
+            claimCell.append(claimButton);
+        });
+    }
+    function renderTicketStats() {
+        if (!canManageAccess) return;
+        const start = Number(ticketRange.start);
+        const end = Number(ticketRange.end);
+        const total = end - start + 1;
+        const soldTickets = new Set();
+        const duplicateTickets = new Set();
+        const accountStats = new Map();
+        let invalidCount = 0;
+        Object.values(salesData).forEach((sale) => {
+            const account = typeof sale.createdBy === 'string' && sale.createdBy.trim() ? sale.createdBy.trim() : 'Không ghi nhận tài khoản';
+            if (!accountStats.has(account)) accountStats.set(account, { lots: 0, tickets: new Set() });
+            const accountStat = accountStats.get(account);
+            accountStat.lots += 1;
+            (Array.isArray(sale.tickets) ? sale.tickets : []).forEach((value) => {
+                const ticket = String(value);
+                if (!/^\d{4}$/.test(ticket) || Number(ticket) < start || Number(ticket) > end) { invalidCount += 1; return; }
+                if (soldTickets.has(ticket)) duplicateTickets.add(ticket);
+                soldTickets.add(ticket);
+                accountStat.tickets.add(ticket);
+            });
+        });
+        const sold = soldTickets.size;
+        const unsold = Math.max(0, total - sold);
+        const percent = (sold / total * 100).toLocaleString('vi-VN', { maximumFractionDigits: 2 });
+        document.getElementById('ticketSoldStat').textContent = sold.toLocaleString('vi-VN');
+        document.getElementById('ticketUnsoldStat').textContent = unsold.toLocaleString('vi-VN');
+        document.getElementById('ticketTotalStat').textContent = total.toLocaleString('vi-VN');
+        document.getElementById('ticketSoldProgress').max = total;
+        document.getElementById('ticketSoldProgress').value = Math.min(sold, total);
+        document.getElementById('ticketSoldPercent').textContent = `${percent}%`;
+        const integrity = document.getElementById('ticketStatsIntegrity');
+        const warnings = [];
+        if (duplicateTickets.size) warnings.push(`${duplicateTickets.size} số vé xuất hiện ở nhiều lô`);
+        if (invalidCount) warnings.push(`${invalidCount} vé sai định dạng hoặc nằm ngoài dải ${ticketRange.start}–${ticketRange.end}`);
+        if (sold > total) warnings.push(`đang ghi nhận vượt dải ${(sold - total).toLocaleString('vi-VN')} vé`);
+        integrity.textContent = warnings.length
+            ? `Cần kiểm tra dữ liệu: ${warnings.join('; ')}.`
+            : 'Dữ liệu hợp lệ, không phát hiện vé trùng giữa các lô.';
+        const sellerBody = document.getElementById('sellerStatsBody');
+        sellerBody.replaceChildren();
+        const sellers = [...accountStats.entries()].sort((a, b) => b[1].tickets.size - a[1].tickets.size || a[0].localeCompare(b[0], 'vi'));
+        if (!sellers.length) {
+            const row = sellerBody.insertRow();
+            const cell = row.insertCell();
+            cell.colSpan = 3;
+            cell.className = 'empty-row';
+            cell.textContent = 'Chưa có vé bán được ghi nhận.';
+        } else sellers.forEach(([account, stats]) => {
+            const row = sellerBody.insertRow();
+            addCell(row, account);
+            addCell(row, stats.lots.toLocaleString('vi-VN'));
+            addCell(row, stats.tickets.size.toLocaleString('vi-VN'));
+        });
+        document.getElementById('ticketStatsUpdated').textContent = `Cập nhật trực tiếp · ${new Intl.DateTimeFormat('vi-VN', { timeStyle:'medium', timeZone:'Asia/Ho_Chi_Minh' }).format(new Date())}`;
+    }
+    function startSalesTracking(permissions = {}) {
+        if (salesListenersStarted) return;
+        salesListenersStarted = true;
+        const canSeeSalesData = canAccessTab('sales') || canAccessTab('winners');
+        if (canSeeSalesData) stopSalesListener = onValue(ref(db, 'ticket_sales'), (snapshot) => {
+            salesData = snapshot.val() || {};
+            renderSalesAndWinners();
+            renderTicketStats();
+        }, (error) => { document.getElementById('salesSaveStatus').textContent = `Không tải được dữ liệu vé: ${showError(error)}`; });
+        if (canAccessTab('sales') || canAccessTab('winners')) stopClaimsListener = onValue(ref(db, 'prize_claims'), (snapshot) => {
+            claimsData = snapshot.val() || {};
+            renderSalesAndWinners();
+        }, (error) => { document.getElementById('salesSaveStatus').textContent = `Không tải được trạng thái phát quà: ${showError(error)}`; });
+        if (canAccessTab('sales')) stopHistoryListener = onValue(ref(db, 'ticket_history'), (snapshot) => {
+            historyData = snapshot.val() || {};
+        }, (error) => { document.getElementById('salesSaveStatus').textContent = `Không tải được lịch sử vé: ${showError(error)}`; });
+    }
+    function stopSalesTracking() {
+        stopSalesListener?.();
+        stopClaimsListener?.();
+        stopHistoryListener?.();
+        stopSalesListener = stopClaimsListener = stopHistoryListener = null;
+        salesListenersStarted = false;
+        salesData = {};
+        claimsData = {};
+        historyData = {};
+    }
+    let xlsxModulePromise;
+    async function exportWorkbook(sheetName, filename, rows) {
+        try {
+            xlsxModulePromise ||= import('https://cdn.sheetjs.com/xlsx-0.20.3/package/xlsx.mjs');
+            const { utils, writeFileXLSX } = await xlsxModulePromise;
+            const workbook = utils.book_new();
+            const worksheet = utils.aoa_to_sheet(rows);
+            utils.book_append_sheet(workbook, worksheet, sheetName);
+            writeFileXLSX(workbook, filename);
+        } catch (error) {
+            showPopup(`Không tạo được file Excel. Kiểm tra kết nối mạng rồi thử lại. ${error.message || ''}`);
+        }
+    }
+    function exportDateStamp() {
+        return new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date());
+    }
+    document.getElementById('exportSalesButton').addEventListener('click', () => {
+        const rows = [['Người mua', 'Liên hệ', 'Số vé', 'Người tạo', 'Ngày tạo', 'Số vé trúng']];
+        Object.values(salesData).forEach((sale) => {
+            const tickets = Array.isArray(sale.tickets) ? sale.tickets.map(String) : [];
+            const wins = tickets.filter((ticket) => getWinningPrize(ticket)).length;
+            rows.push([sale.buyerName || '', sale.contact || '', tickets.join(', '), sale.createdBy || '', formatSavedTime(sale.createdAt), wins]);
+        });
+        exportWorkbook('Ve da ban', `danh-sach-ve-${exportDateStamp()}.xlsx`, rows);
+    });
+    document.getElementById('exportWinnersButton').addEventListener('click', () => {
+        const rows = [['Người trúng', 'Liên hệ', 'Số vé', 'Hạng giải', 'Trạng thái phát quà', 'Ngày phát quà']];
+        Object.values(salesData).forEach((sale) => {
+            const tickets = Array.isArray(sale.tickets) ? sale.tickets.map(String) : [];
+            tickets.forEach((ticket) => {
+                const prize = getWinningPrize(ticket);
+                if (!prize) return;
+                const claim = claimsData[ticket] || {};
+                rows.push([sale.buyerName || '', sale.contact || '', ticket, prize.name, claim.delivered ? 'Đã phát' : 'Chưa phát', claim.delivered ? formatSavedTime(claim.updatedAt) : '']);
+            });
+        });
+        exportWorkbook('Nguoi trung', `danh-sach-trung-thuong-${exportDateStamp()}.xlsx`, rows);
     });
 
-    window.updateBadge = function(key) {
-        const inputEl = document.getElementById(`in_${key}`);
-        const badge = document.getElementById(`badge_${key}`);
-        if (!inputEl || !badge) return;
-        const target = config.find(c => c.key === key).target;
-        const nums = inputEl.value ? inputEl.value.split(/[\s,\n]+/).filter(s => s.trim() !== "") : [];
-        badge.innerText = `${nums.length}/${target}`;
-        badge.style.background = nums.length === target ? "#2e7d32" : (nums.length > target ? "#d32f2f" : "#666");
-    };
+    async function loadPrizeCounts() {
+        const [countsSnapshot, namesSnapshot, orderSnapshot, ticketRangeSnapshot] = await Promise.all([
+            get(ref(db, 'prize_counts')),
+            get(ref(db, 'prize_names')),
+            get(ref(db, 'prize_order')),
+            get(ref(db, 'ticket_range_config'))
+        ]);
+        const saved = countsSnapshot.val() || {};
+        const savedNames = namesSnapshot.val() || {};
+        const order = orderSnapshot.val();
+        const savedRange = ticketRangeSnapshot.val() || {};
+        const rangeStart = String(savedRange.start ?? '0000');
+        const rangeEnd = String(savedRange.end ?? '9999');
+        ticketRange = /^\d{4}$/.test(rangeStart) && /^\d{4}$/.test(rangeEnd) && Number(rangeStart) <= Number(rangeEnd)
+            ? { start: rangeStart, end: rangeEnd }
+            : { start: '0000', end: '9999' };
+        document.getElementById('ticketRangeStart').value = ticketRange.start;
+        document.getElementById('ticketRangeEnd').value = ticketRange.end;
+        updateTicketRangeConfigPreview();
+        if (Array.isArray(order) && order.length) {
+            const defaultByKey = new Map(defaultConfig.map((prize) => [prize.key, prize]));
+            config = order.filter((key) => typeof key === 'string').map((key) => ({
+                ...(defaultByKey.get(key) || { key, name: savedNames[key] || 'Giải mới', target: Number(saved[key]) || 1, custom: true })
+            }));
+        }
+        config.forEach((prize) => {
+            const value = Number(saved[prize.key]);
+            prize.target = Number.isSafeInteger(value) && value >= 0 && value <= 1000 ? value : (defaultCounts[prize.key] ?? prize.target ?? 1);
+            if (typeof savedNames[prize.key] === 'string' && savedNames[prize.key].trim()) prize.name = savedNames[prize.key].trim();
+        });
+        buildControls();
+    }
+    function updateTicketRangeConfigPreview() {
+        const start = document.getElementById('ticketRangeStart').value.trim();
+        const end = document.getElementById('ticketRangeEnd').value.trim();
+        const preview = document.getElementById('ticketRangeConfigPreview');
+        if (!/^\d{4}$/.test(start) || !/^\d{4}$/.test(end) || Number(start) > Number(end)) {
+            preview.textContent = 'Nhập đủ 4 chữ số và đảm bảo số bắt đầu không lớn hơn số kết thúc.';
+            return;
+        }
+        preview.textContent = `Phạm vi ${start} đến ${end} · ${(Number(end) - Number(start) + 1).toLocaleString('vi-VN')} vé`;
+    }
+    function isTicketWithinRange(ticket) {
+        return /^\d{4}$/.test(String(ticket)) && Number(ticket) >= Number(ticketRange.start) && Number(ticket) <= Number(ticketRange.end);
+    }
+    ['ticketRangeStart', 'ticketRangeEnd'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', () => {
+            updateTicketRangeConfigPreview();
+            setSaveStatus(configSaveStatus, 'dirty', 'Có thay đổi chưa lưu.');
+        });
+    });
 
-    window.checkLogin = function() {
-        const pass = document.getElementById('adminPassword').value;
-        const enc = encodePass(pass);
-        
-        onValue(ref(db, 'system_users'), (snap) => {
-            const users = snap.val();
-            if (users && users[enc]) {
-                currentUser = users[enc];
-                currentUser.id = enc;
+    onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+            stopSalesTracking();
+            loginPanel.style.display = 'block';
+            adminPanel.style.display = 'none';
+            return;
+        }
+        loginPanel.style.display = 'none';
+        adminPanel.style.display = 'block';
+        document.getElementById('signedInAs').textContent = `Đã đăng nhập: ${user.email || user.uid}`;
+        try {
+            const adminSnapshot = await get(ref(db, `admins/${user.uid}`));
+            isSuperAdmin = adminSnapshot.val() === true;
+            const accessSnapshot = await get(ref(db, `admin_access/${user.uid}`));
+            const access = accessSnapshot.val() || {};
+            hasExplicitAccess = Boolean(accessSnapshot.exists());
+            canManageAccess = isSuperAdmin && !hasExplicitAccess;
+            const permissions = access.tabs || {};
+            applyPermissions(permissions);
+            if (!tabKeys.some(canAccessTab) && !isSuperAdmin) {
+                showPopup('Tài khoản chưa được cấp quyền truy cập. Hãy liên hệ superadmin.');
+                await signOut(auth);
+                return;
+            }
+            await loadPrizeCounts();
+            await loadResults();
+            await loadSaveTimes();
+            startSalesTracking(permissions);
+            if (canManageAccess) await loadManagedPermissions();
+            adminStatus.textContent = '';
+        } catch (error) {
+            showPopup(showError(error));
+        }
+    });
 
-                push(ref(db, 'system_logs/logins'), {
-                    user: currentUser.name,
-                    time: serverTimestamp(),
-                    action: "Đăng nhập"
-                });
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        loginButton.disabled = true;
+        loginStatus.textContent = '';
+        try {
+            await signInWithEmailAndPassword(auth, document.getElementById('email').value.trim(), document.getElementById('password').value);
+            loginStatus.textContent = '';
+            document.getElementById('password').value = '';
+        } catch (error) {
+            showPopup(showError(error));
+        } finally {
+            loginButton.disabled = false;
+        }
+    });
 
-                document.getElementById('loginOverlay').style.display = 'none';
-                document.getElementById('adminContent').style.display = 'block';
-                document.getElementById('currentUserInfo').innerText = "👤 Admin: " + currentUser.name;
-                
-                if (currentUser.isSuper) {
-                    document.getElementById('superAdminLogs').style.display = 'block';
-                    document.getElementById('userManagementSection').style.display = 'block';
-                    loadSystemLogs();
-                    loadUsers();
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+        await signOut(auth);
+    });
+    document.getElementById('permissionForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        if (!canManageAccess) return;
+        const uid = document.getElementById('permissionUid').value.trim();
+        if (!/^[A-Za-z0-9_-]{1,128}$/.test(uid)) {
+            showPopup('UID không hợp lệ. Hãy sao chép UID trong Firebase Authentication.');
+            return;
+        }
+        const tabs = Object.fromEntries(tabKeys.map((key) => [key,
+            document.querySelector(`#permissionForm [name="permission"][value="${key}"]`).checked
+        ]));
+        if (!Object.values(tabs).some(Boolean)) {
+            showPopup('Hãy chọn ít nhất một tab được phép truy cập.');
+            return;
+        }
+        const button = event.currentTarget.querySelector('button[type="submit"]');
+        button.disabled = true;
+        try {
+            await set(ref(db, `admin_access/${uid}`), {
+                email: document.getElementById('permissionEmail').value.trim(),
+                tabs,
+                updatedAt: serverTimestamp(),
+                updatedBy: auth.currentUser?.email || auth.currentUser?.uid || ''
+            });
+            if (isSuperAdmin && uid === auth.currentUser?.uid) {
+                hasExplicitAccess = true;
+                canManageAccess = false;
+                applyPermissions(tabs);
+            }
+            document.getElementById('permissionStatus').textContent = 'Đã lưu phân quyền.';
+            await loadManagedPermissions();
+            showPopup('Đã cập nhật quyền truy cập cho tài khoản.', 'success');
+        } catch (error) {
+            showPopup(showError(error));
+        } finally { button.disabled = false; }
+    });
+
+    let ticketEntryMode = 'list';
+    const listModeButton = document.getElementById('listModeButton');
+    const rangeModeButton = document.getElementById('rangeModeButton');
+    const rangePreview = document.getElementById('rangePreview');
+    function setTicketEntryMode(mode) {
+        ticketEntryMode = mode;
+        const listMode = mode === 'list';
+        document.getElementById('ticketListMode').hidden = !listMode;
+        document.getElementById('ticketRangeMode').hidden = listMode;
+        listModeButton.classList.toggle('active', listMode);
+        rangeModeButton.classList.toggle('active', !listMode);
+        listModeButton.setAttribute('aria-pressed', String(listMode));
+        rangeModeButton.setAttribute('aria-pressed', String(!listMode));
+    }
+    listModeButton.addEventListener('click', () => setTicketEntryMode('list'));
+    rangeModeButton.addEventListener('click', () => setTicketEntryMode('range'));
+    function getTicketsFromRange() {
+        const from = document.getElementById('ticketFrom').value.trim();
+        const to = document.getElementById('ticketTo').value.trim();
+        if (!/^\d{4}$/.test(from) || !/^\d{4}$/.test(to)) return { error: 'Nhập số bắt đầu và kết thúc đủ 4 chữ số (ví dụ 0001 đến 0100).' };
+        const start = Number(from);
+        const end = Number(to);
+        if (start < Number(ticketRange.start) || end > Number(ticketRange.end)) {
+            return { error: `Dải vé nhập nằm ngoài phạm vi đã cấu hình (${ticketRange.start} đến ${ticketRange.end}).` };
+        }
+        if (end < start) return { error: 'Số kết thúc phải lớn hơn hoặc bằng số bắt đầu.' };
+        if (end - start + 1 > 1000) return { error: 'Mỗi lần chỉ tạo tối đa 1000 vé. Hãy chia dải thành nhiều lần lưu.' };
+        return { tickets: Array.from({ length: end - start + 1 }, (_, index) => String(start + index).padStart(4, '0')) };
+    }
+    function updateRangePreview() {
+        const result = getTicketsFromRange();
+        if (result.error) {
+            rangePreview.textContent = 'Nhập số đầu và số cuối; tối đa 1000 vé mỗi lần.';
+            return;
+        }
+        rangePreview.textContent = `${result.tickets.length} vé: ${result.tickets[0]} đến ${result.tickets[result.tickets.length - 1]}`;
+    }
+    document.getElementById('ticketFrom').addEventListener('input', updateRangePreview);
+    document.getElementById('ticketTo').addEventListener('input', updateRangePreview);
+
+    document.getElementById('saleForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const buyerName = document.getElementById('buyerName').value.trim();
+        const contact = document.getElementById('buyerContact').value.trim();
+        const range = ticketEntryMode === 'range' ? getTicketsFromRange() : null;
+        const tickets = ticketEntryMode === 'range'
+            ? (range.tickets || [])
+            : document.getElementById('buyerTickets').value.split(/[\s,]+/).map((value) => value.trim()).filter(Boolean);
+        const status = document.getElementById('salesSaveStatus');
+        if (!buyerName) {
+            showValidationPopup('Nhập tên người mua trước khi lưu.', 'buyerName');
+            return;
+        }
+        if (range?.error) {
+            const fromValue = document.getElementById('ticketFrom').value.trim();
+            const focusId = !/^\d{4}$/.test(fromValue) ? 'ticketFrom' : 'ticketTo';
+            showValidationPopup(range.error, focusId);
+            return;
+        }
+        if (!tickets.length || tickets.some((ticket) => !/^\d{4}$/.test(ticket))) {
+            showValidationPopup('Mỗi số vé phải gồm đúng 4 chữ số.', ticketEntryMode === 'range' ? 'ticketFrom' : 'buyerTickets');
+            return;
+        }
+        const outsideRange = tickets.find((ticket) => !isTicketWithinRange(ticket));
+        if (outsideRange) {
+            showValidationPopup(`Vé ${outsideRange} nằm ngoài dải đã cấu hình (${ticketRange.start} đến ${ticketRange.end}).`, ticketEntryMode === 'range' ? 'ticketFrom' : 'buyerTickets');
+            return;
+        }
+        if (new Set(tickets).size !== tickets.length) {
+            showValidationPopup('Danh sách này có số vé bị lặp.', 'buyerTickets');
+            return;
+        }
+        const existingTickets = new Set(Object.values(salesData).flatMap((sale) => Array.isArray(sale.tickets) ? sale.tickets.map(String) : []));
+        const alreadySold = tickets.find((ticket) => existingTickets.has(ticket));
+        if (alreadySold) {
+            showValidationPopup(`Vé ${alreadySold} đã được ghi nhận cho người mua khác.`, 'buyerTickets');
+            return;
+        }
+        const button = document.getElementById('addSaleButton');
+        button.disabled = true;
+        setSaveStatus(status, 'saving', 'Đang lưu danh sách vé…');
+        try {
+            const saleRef = push(ref(db, 'ticket_sales'));
+            const createdAt = serverTimestamp();
+            const actor = auth.currentUser.email || auth.currentUser.uid;
+            const historyRef = push(ref(db, 'ticket_history'));
+            const saleRecord = { buyerName, contact, tickets, createdAt, createdBy: actor };
+            await update(ref(db), {
+                [`ticket_sales/${saleRef.key}`]: saleRecord,
+                [`ticket_history/${historyRef.key}`]: { type: 'sale_created', saleId: saleRef.key, buyerName, tickets, actor, timestamp: createdAt }
+            });
+            setSaveStatus(status, 'saved', `Đã lưu vé thành công · ${formatSavedTime(Date.now())}`);
+            document.getElementById('saleForm').reset();
+            updateRangePreview();
+        } catch (error) {
+            setSaveStatus(status, 'error', `Lưu thất bại: ${showError(error)}`);
+            showPopup(showError(error));
+        } finally {
+            button.disabled = false;
+        }
+    });
+
+    document.getElementById('cancelTransfer').addEventListener('click', () => document.getElementById('transferDialog').close());
+    document.getElementById('closeHistory').addEventListener('click', () => document.getElementById('historyDialog').close());
+    document.getElementById('transferForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const sale = salesData[activeTransferSaleId];
+        if (!sale) {
+            showPopup('Không tìm thấy bản ghi vé gốc. Tải lại danh sách rồi thử lại.');
+            return;
+        }
+        const buyerName = document.getElementById('transferBuyerName').value.trim();
+        const contact = document.getElementById('transferBuyerContact').value.trim();
+        const tickets = document.getElementById('transferTickets').value.split(/[\s,]+/).map((value) => value.trim()).filter(Boolean);
+        const owned = Array.isArray(sale.tickets) ? sale.tickets.map(String) : [];
+        if (!buyerName) {
+            showPopup('Nhập tên người nhận vé.');
+            return;
+        }
+        if (!tickets.length || tickets.some((ticket) => !/^\d{4}$/.test(ticket))) {
+            showPopup('Mỗi vé chuyển phải gồm đúng 4 chữ số.');
+            return;
+        }
+        const outsideRange = tickets.find((ticket) => !isTicketWithinRange(ticket));
+        if (outsideRange) {
+            showPopup(`Vé ${outsideRange} nằm ngoài dải đã cấu hình (${ticketRange.start} đến ${ticketRange.end}).`);
+            return;
+        }
+        if (new Set(tickets).size !== tickets.length) {
+            showPopup('Danh sách vé chuyển có số bị lặp.');
+            return;
+        }
+        const notOwned = tickets.find((ticket) => !owned.includes(ticket));
+        if (notOwned) {
+            showPopup(`Người bán hiện không sở hữu vé ${notOwned}; không thể chuyển vé này.`);
+            return;
+        }
+        const remaining = owned.filter((ticket) => !tickets.includes(ticket));
+        const newSaleId = push(ref(db, 'ticket_sales')).key;
+        const transferId = push(ref(db, 'ticket_transfers')).key;
+        const historyId = push(ref(db, 'ticket_history')).key;
+        const actor = auth.currentUser.email || auth.currentUser.uid;
+        const updates = {};
+        updates[`ticket_sales/${activeTransferSaleId}`] = remaining.length ? { ...sale, tickets: remaining } : null;
+        updates[`ticket_sales/${newSaleId}`] = {
+            buyerName,
+            contact,
+            tickets,
+            createdAt: serverTimestamp(),
+            createdBy: actor,
+            transferredFrom: activeTransferSaleId
+        };
+        updates[`ticket_transfers/${transferId}`] = {
+            fromSaleId: activeTransferSaleId,
+            fromBuyer: sale.buyerName || '',
+            fromCreatedBy: sale.createdBy || '',
+            fromCreatedAt: sale.createdAt || null,
+            toSaleId: newSaleId,
+            toBuyer: buyerName,
+            actor,
+            tickets,
+            transferredAt: serverTimestamp()
+        };
+        updates[`ticket_history/${historyId}`] = {
+            type: 'ticket_transfer',
+            fromSaleId: activeTransferSaleId,
+            fromBuyer: sale.buyerName || '',
+            fromCreatedBy: sale.createdBy || '',
+            fromCreatedAt: sale.createdAt || null,
+            toSaleId: newSaleId,
+            toBuyer: buyerName,
+            tickets,
+            actor,
+            timestamp: serverTimestamp()
+        };
+        tickets.forEach((ticket) => {
+            if (claimsData[ticket]) updates[`prize_claims/${ticket}/saleId`] = newSaleId;
+        });
+        const button = document.getElementById('confirmTransfer');
+        const status = document.getElementById('transferStatus');
+        button.disabled = true;
+        setSaveStatus(status, 'saving', 'Đang chuyển quyền sở hữu…');
+        try {
+            await update(ref(db), updates);
+            document.getElementById('transferDialog').close();
+            showPopup(`Đã chuyển ${tickets.length} vé cho ${buyerName}.`, 'success');
+        } catch (error) {
+            setSaveStatus(status, 'error', `Chuyển vé thất bại: ${showError(error)}`);
+        } finally {
+            button.disabled = false;
+        }
+    });
+
+    document.getElementById('addPrizeButton').addEventListener('click', () => {
+        const key = `custom_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+        config.push({ key, name: 'Giải mới', target: 1, custom: true });
+        buildControls();
+        updateTotalPrizeCount();
+        setSaveStatus(configSaveStatus, 'dirty', 'Có thay đổi chưa lưu.');
+        const nameInput = document.getElementById(`name_${key}`);
+        nameInput.focus();
+        nameInput.select();
+    });
+
+    document.getElementById('saveCountsButton').addEventListener('click', async () => {
+        const rangeStart = document.getElementById('ticketRangeStart').value.trim();
+        const rangeEnd = document.getElementById('ticketRangeEnd').value.trim();
+        if (!/^\d{4}$/.test(rangeStart)) {
+            showValidationPopup('Số vé bắt đầu phải gồm đúng 4 chữ số.', 'ticketRangeStart');
+            return;
+        }
+        if (!/^\d{4}$/.test(rangeEnd)) {
+            showValidationPopup('Số vé kết thúc phải gồm đúng 4 chữ số.', 'ticketRangeEnd');
+            return;
+        }
+        if (Number(rangeStart) > Number(rangeEnd)) {
+            showValidationPopup('Số vé bắt đầu phải nhỏ hơn hoặc bằng số vé kết thúc.', 'ticketRangeEnd');
+            return;
+        }
+        const nextTicketRange = { start: rangeStart, end: rangeEnd };
+        const counts = {};
+        const names = {};
+        for (const prize of config) {
+            const input = document.getElementById(`target_${prize.key}`);
+            const nameInput = document.getElementById(`name_${prize.key}`);
+            const count = Number(input.value);
+            const name = nameInput.value.trim();
+            if (!Number.isSafeInteger(count) || count < 0 || count > 1000) {
+                showValidationPopup(`${prize.name}: nhập số nguyên từ 0 đến 1000.`, input.id);
+                return;
+            }
+            if (!name || name.length > 40) {
+                showValidationPopup('Tên hạng giải phải có từ 1 đến 40 ký tự.', nameInput.id);
+                return;
+            }
+            counts[prize.key] = count;
+            names[prize.key] = name;
+        }
+        if (config.length === 0) {
+            showPopup('Cần có ít nhất một hạng giải trong cơ cấu.');
+            return;
+        }
+        const button = document.getElementById('saveCountsButton');
+        button.disabled = true;
+        setSaveStatus(configSaveStatus, 'saving', 'Đang lưu cấu hình lên Firebase…');
+        try {
+            await Promise.all([
+                set(ref(db, 'prize_counts'), counts),
+                set(ref(db, 'prize_names'), names),
+                set(ref(db, 'prize_order'), config.map((prize) => prize.key)),
+                set(ref(db, 'ticket_range_config'), nextTicketRange),
+                set(ref(db, 'admin_meta/last_config_update'), serverTimestamp())
+            ]);
+            ticketRange = nextTicketRange;
+            updateTicketRangeConfigPreview();
+            renderTicketStats();
+            config.forEach((prize) => { prize.target = counts[prize.key]; prize.name = names[prize.key]; });
+            buildControls();
+            config.forEach(updateCount);
+            const savedAt = await get(ref(db, 'admin_meta/last_config_update'));
+            setSaveStatus(configSaveStatus, 'saved', `Đã lưu thành công · ${formatSavedTime(savedAt.val())}`);
+            showPopup('Đã lưu tên và số lượng giải. Trang tra cứu sẽ cập nhật tự động.', 'success');
+        } catch (error) {
+            setSaveStatus(configSaveStatus, 'error', `Lưu thất bại: ${showError(error)}`);
+            showPopup(showError(error));
+        } finally {
+            button.disabled = false;
+        }
+    });
+
+    document.getElementById('resultsForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const user = auth.currentUser;
+        if (!user) return;
+        const results = {};
+        const pending = [];
+        for (const prize of config) {
+            const input = document.getElementById(`in_${prize.key}`);
+            const numbers = parseNumbers(input);
+            const original = input.dataset.originalValue || '';
+            if (numbers.length === 0 && original) {
+                results[prize.key] = original.split(',').filter(Boolean);
+                pending.push({ prize, numbers: results[prize.key], unchanged: true });
+                continue;
+            }
+            if (numbers.length > prize.target) {
+                showValidationPopup(`${prize.name}: tối đa ${prize.target} số, hiện có ${numbers.length}.`, `in_${prize.key}`);
+                return;
+            }
+            if (numbers.some((number) => !/^\d{4}$/.test(number))) {
+                showValidationPopup(`${prize.name}: mỗi số phải gồm đúng 4 chữ số.`, `in_${prize.key}`);
+                return;
+            }
+            results[prize.key] = numbers;
+            pending.push({ prize, numbers, unchanged: input.disabled || numbers.join(',') === original });
+        }
+
+        const numberOwners = new Map();
+        for (const { prize, numbers, unchanged } of pending) {
+            for (const number of numbers) {
+                const previousPrize = numberOwners.get(number);
+                if (previousPrize) {
+                    const firstEntry = pending.find((entry) => entry.prize.key === previousPrize.key);
+                    const changedEntry = [firstEntry, pending.find((entry) => entry.prize.key === prize.key)]
+                        .find((entry) => entry && !entry.unchanged);
+                    const focusPrize = changedEntry?.prize || prize;
+                    const detail = previousPrize.key === prize.key
+                        ? `Số ${number} bị nhập lặp trong ${prize.name}.`
+                        : `Số ${number} bị trùng giữa ${previousPrize.name} và ${prize.name}.`;
+                    showValidationPopup(`${detail} Hãy kiểm tra cả hai hạng giải.`, `in_${focusPrize.key}`);
+                    return;
                 }
-                startSessionTimer();
-                loadDatabase();
-            } else { alert("Mã truy cập không đúng!"); }
-        }, { onlyOnce: true });
-    };
-
-    function loadUsers() {
-        onValue(ref(db, 'system_users'), (snap) => {
-            const users = snap.val();
-            const tableBody = document.getElementById('userListTable');
-            tableBody.innerHTML = "";
-            if (users) {
-                Object.keys(users).forEach(id => {
-                    const u = users[id];
-                    tableBody.innerHTML += `
-                        <tr>
-                            <td>${u.name}</td>
-                            <td>${u.isSuper ? '⭐ Super Admin' : 'Admin'}</td>
-                            <td><button class="btn-delete" onclick="deleteUser('${id}', '${u.name}')">Xóa</button></td>
-                        </tr>`;
-                });
+                numberOwners.set(number, prize);
             }
-        });
-    }
-
-    window.addUser = function() {
-        const name = document.getElementById('newUserName').value;
-        const pass = document.getElementById('newUserPass').value;
-        const isSuper = document.getElementById('newUserIsSuper').checked;
-        if (!name || !pass) return alert("Vui lòng nhập đủ thông tin!");
-
-        const enc = encodePass(pass);
-        set(ref(db, `system_users/${enc}`), { name, isSuper }).then(() => {
-            alert("Thành công!");
-            document.getElementById('newUserName').value = "";
-            document.getElementById('newUserPass').value = "";
-        });
-    };
-
-    window.deleteUser = function(id, name) {
-        if (id === currentUser.id) return alert("Không thể tự xóa chính mình!");
-        if (confirm(`Xóa tài khoản của ${name}?`)) {
-            remove(ref(db, `system_users/${id}`));
-        }
-    };
-
-    window.uploadToFirebase = function() {
-        const dataToUpload = {};
-        let allNumbers = [];
-        let duplicates = [];
-        let changeDetail = "";
-
-        for (const p of config) {
-            const val = document.getElementById(`in_${p.key}`).value;
-            const nums = val ? val.split(/[\s,\n]+/).map(s => s.trim()).filter(s => s !== "") : [];
-            nums.forEach(num => {
-                if (allNumbers.includes(num)) duplicates.push(num);
-                allNumbers.push(num);
-            });
-            dataToUpload[p.key] = nums;
-            if (nums.length > 0) changeDetail += `${p.name}: ${nums.join(', ')}\n`;
         }
 
-        if (duplicates.length > 0) return alert(`Lỗi: Trùng số ${duplicates.join(', ')}`);
-        if (!confirm("Xác nhận cập nhật dữ liệu?")) return;
-
-        set(ref(db, 'lottery_results'), dataToUpload).then(() => {
-            push(ref(db, 'system_logs/updates'), {
-                user: currentUser.name,
-                time: serverTimestamp(),
-                action: "Cập nhật kết quả",
-                content: changeDetail
+        saveButton.disabled = true;
+        adminStatus.textContent = '';
+        setSaveStatus(resultsSaveStatus, 'saving', 'Đang lưu kết quả lên Firebase…');
+        try {
+            await Promise.all([
+                set(ref(db, 'lottery_results'), results),
+                set(ref(db, 'admin_meta/last_results_update'), serverTimestamp())
+            ]);
+            currentResults = results;
+            renderSalesAndWinners();
+            const savedAt = await get(ref(db, 'admin_meta/last_results_update'));
+            setSaveStatus(resultsSaveStatus, 'saved', `Đã lưu thành công · ${formatSavedTime(savedAt.val())}`);
+            config.forEach((prize) => {
+                const input = document.getElementById(`in_${prize.key}`);
+                input.dataset.originalValue = results[prize.key].join(',');
+                updateCount(prize);
+                input.disabled = true;
+                const lockButton = document.getElementById(`lock_${prize.key}`);
+                lockButton.classList.remove('unlocked');
+                lockButton.textContent = '🔒 MỞ KHÓA';
+                lockButton.setAttribute('aria-pressed', 'false');
+                input.closest('.result-card').classList.add('is-locked');
             });
-            alert("🚀 Thành công!");
-        });
-    };
-
-    function loadSystemLogs() {
-        onValue(query(ref(db, 'system_logs/logins'), limitToLast(20)), (snap) => {
-            const data = snap.val();
-            const logList = document.getElementById('logList');
-            logList.innerHTML = "";
-            if (data) {
-                Object.values(data).reverse().forEach(log => {
-                    logList.innerHTML += `<div class="log-item"><b>[${new Date(log.time).toLocaleString()}]</b> ${log.user}: ${log.action}</div>`;
-                });
-            }
-        });
-    }
-
-    function startSessionTimer() {
-        setInterval(() => {
-            timeLeft--;
-            const mins = Math.floor(timeLeft / 60);
-            const secs = timeLeft % 60;
-            document.getElementById('sessionTimer').innerText = `Phiên làm việc: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
-            if (timeLeft <= 0) location.reload();
-        }, 1000);
-    }
-
-    function loadDatabase() {
-        onValue(ref(db, 'lottery_results'), (snap) => {
-            const data = snap.val();
-            if (data) {
-                config.forEach(p => {
-                    const val = data[p.key] ? data[p.key].join(', ') : "";
-                    document.getElementById(`in_${p.key}`).value = val;
-                    document.getElementById(`status_${p.key}`).innerHTML = `✅ Hiện tại: <b>${val || 'Trống'}</b>`;
-                    updateBadge(p.key);
-                });
-            }
-        }, { onlyOnce: true });
-    }
-
-    window.logout = () => location.reload();
+            showPopup('Đã cập nhật kết quả thành công.', 'success');
+        } catch (error) {
+            setSaveStatus(resultsSaveStatus, 'error', `Lưu thất bại: ${showError(error)}`);
+            showPopup(showError(error));
+        } finally {
+            saveButton.disabled = false;
+        }
+    });
 </script>
 </body>
 </html>
