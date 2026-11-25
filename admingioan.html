@@ -6,10 +6,26 @@
     <meta name="robots" content="noindex, nofollow">
     <title>Quản trị kết quả - Nhà Gioan</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; color: #222; }
+        body { font-family: 'Segoe UI', sans-serif; background: radial-gradient(ellipse at 50% 0%, #fffaf0 0, #f3f4f6 52%, #edf0f4 100%); padding: 20px; color: #222; }
         .panel { box-sizing:border-box; width: min(1800px, calc(100% - 24px)); margin: 12px auto; background: #fff; padding: clamp(24px, 3vw, 44px); border-radius: 14px; box-shadow: 0 4px 20px #0002; }
         h1 { color: #c62828; text-align: center; }
         .login { max-width: 420px; }
+        #loginPanel { position:fixed; z-index:100; top:50%; left:50%; transform:translate(-50%,-50%); width:min(440px,calc(100vw - 32px)); max-width:none; margin:0; padding:0; overflow:hidden; border:1px solid #e8e8e8; border-radius:18px; box-shadow:0 22px 70px #17212b24,0 3px 12px #17212b0d; }
+        .login-brand { display:flex; align-items:center; gap:15px; padding:25px 30px; color:white; background:linear-gradient(135deg,#8f2020,#bd3030 64%,#cb4540); }
+        .login-brand-icon { display:grid; place-items:center; flex:0 0 54px; width:54px; height:54px; border:1px solid #ffffff50; border-radius:15px; background:#ffffff18; font-size:1.8rem; }
+        .login-brand small { display:block; margin-bottom:4px; color:#ffdf9a; font-size:.72rem; font-weight:800; letter-spacing:.15em; }
+        #loginPanel h1 { margin:0; color:#fff; text-align:left; font-size:1.42rem; line-height:1.25; white-space:nowrap; }
+        .login-content { padding:24px 30px 22px; }
+        .login-description { margin:0 0 22px; color:#68717b; line-height:1.5; }
+        #loginForm label { margin:16px 0 7px; color:#333b45; font-size:.9rem; }
+        #loginForm input { min-height:48px; padding:12px 14px; border-color:#d8dde4; border-radius:9px; background:#fbfcfd; transition:border-color .15s,box-shadow .15s,background .15s; }
+        #loginForm input:focus { outline:0; border-color:#b52d2d; background:#fff; box-shadow:0 0 0 3px #b52d2d1a; }
+        .login-submit-row { margin:22px 0 0; }
+        #loginButton { width:100%; min-height:49px; border-radius:9px; background:linear-gradient(135deg,#2e7d32,#398e40); box-shadow:0 5px 12px #2e7d3228; letter-spacing:.025em; }
+        #loginButton:hover:not(:disabled) { background:linear-gradient(135deg,#276b2b,#327d38); }
+        .login-footer { display:flex; align-items:center; gap:8px; margin-top:20px; padding-top:15px; border-top:1px solid #edf0f2; color:#7a828c; font-size:.8rem; }
+        .login-footer span { color:#2e7d32; }
+        @media(max-width:480px) { #loginPanel { width:calc(100vw - 28px); } .login-brand { padding:22px; } .login-content { padding:21px 22px 20px; } #loginPanel h1 { font-size:1.28rem; } }
         label { display: block; font-weight: 600; margin: 14px 0 6px; }
         input, textarea { width: 100%; box-sizing: border-box; padding: 11px; border: 1px solid #bbb; border-radius: 6px; font: inherit; }
         textarea { min-height: 90px; }
@@ -96,6 +112,12 @@
         .sales-table { width:100%; border-collapse:collapse; font-size:.92rem; }
         .sales-table th,.sales-table td { padding:10px; border-bottom:1px solid #e8eaed; text-align:left; vertical-align:top; }
         .sales-table th { color:#5d6268; background:#f6f7f8; font-size:.82rem; text-transform:uppercase; white-space:nowrap; }
+        .sales-table .sales-filter-row th { padding:6px; background:#fff; }
+        .sales-filter-row input,.sales-filter-row select { width:100%; min-width:105px; padding:7px 8px; font-size:.82rem; text-transform:none; }
+        .sales-pagination { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin:12px 0 4px; color:#5d6268; font-size:.9rem; }
+        .sales-pagination-controls { display:flex; align-items:center; gap:8px; }
+        .sales-pagination button { padding:7px 11px; }
+        .sales-pagination select { width:auto; padding:7px 9px; }
         .winner-badge { display:inline-block; padding:4px 8px; border-radius:999px; background:#fff1c9; color:#704700; font-size:.82rem; font-weight:700; }
         .claim-button,.delete-sale { padding:7px 10px; font-size:.8rem; white-space:nowrap; }
         .claim-button { background:#2e7d32; }
@@ -131,7 +153,6 @@
         #adminContent > h1 { margin:18px 0 14px; }
         .sales-panel { max-width: none; }
         .sales-form { grid-template-columns:repeat(2,minmax(0,1fr)); }
-        .sales-table-wrap { max-height: min(58vh, 680px); }
         .results-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; }
         .result-card { padding:18px; }
         .config-panel { max-width: none; }
@@ -143,16 +164,22 @@
 <body>
     <main>
         <section class="panel login" id="loginPanel">
-            <h1>🔒 Đăng nhập quản trị</h1>
-            <p class="muted">Dùng tài khoản email/mật khẩu đã tạo trong Firebase Authentication.</p>
-            <form id="loginForm">
-                <label for="email">Email</label>
-                <input id="email" type="email" autocomplete="username" required>
-                <label for="password">Mật khẩu</label>
-                <input id="password" type="password" autocomplete="current-password" required>
-                <p><button id="loginButton" type="submit">ĐĂNG NHẬP</button></p>
-            </form>
-            <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
+            <div class="login-brand">
+                <div class="login-brand-icon" aria-hidden="true">🔐</div>
+                <div><small>NHÀ GIOAN · ADMIN</small><h1>Đăng nhập quản trị</h1></div>
+            </div>
+            <div class="login-content">
+                <p class="login-description">Đăng nhập bằng tài khoản quản trị được cấp trong Firebase Authentication.</p>
+                <form id="loginForm">
+                    <label for="email">Email</label>
+                    <input id="email" type="email" autocomplete="username" placeholder="admin@example.com" required>
+                    <label for="password">Mật khẩu</label>
+                    <input id="password" type="password" autocomplete="current-password" placeholder="Nhập mật khẩu" required>
+                    <p class="login-submit-row"><button id="loginButton" type="submit">ĐĂNG NHẬP</button></p>
+                </form>
+                <div id="loginStatus" class="status" role="status" aria-live="polite"></div>
+                <div class="login-footer"><span aria-hidden="true">●</span> Kết nối bảo mật qua Firebase Authentication</div>
+            </div>
         </section>
 
         <section class="panel" id="adminContent">
@@ -222,13 +249,52 @@
                     <div class="field wide"><button id="addSaleButton" type="submit">LƯU THÔNG TIN VÉ</button><span id="salesSaveStatus" class="save-status" role="status" aria-live="polite"></span></div>
                 </form>
                 <div class="table-toolbar"><button type="button" class="export-button" id="exportSalesButton">⬇ Xuất danh sách vé (.xlsx)</button></div>
-                <div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>Người mua</th><th>Liên hệ</th><th>Số vé</th><th>Người tạo</th><th>Trạng thái</th><th></th></tr></thead><tbody id="salesTableBody"><tr><td class="empty-row" colspan="6">Đang tải danh sách vé…</td></tr></tbody></table></div>
+                <div class="sales-pagination" id="salesPagination">
+                    <span id="salesPaginationInfo">Đang tải danh sách…</span>
+                    <div class="sales-pagination-controls">
+                        <label for="salesPageSize">Mỗi trang</label>
+                        <select id="salesPageSize" aria-label="Số phiếu mỗi trang"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option></select>
+                        <button type="button" class="secondary" id="salesPrevPage">← Trước</button>
+                        <span id="salesPageIndicator">1 / 1</span>
+                        <button type="button" class="secondary" id="salesNextPage">Sau →</button>
+                    </div>
+                </div>
+                <div class="sales-table-wrap"><table class="sales-table"><thead>
+                    <tr><th>Người mua</th><th>Liên hệ</th><th>Số vé</th><th>Người tạo</th><th>Trạng thái</th><th></th></tr>
+                    <tr class="sales-filter-row">
+                        <th><input id="filterBuyer" type="search" aria-label="Lọc theo người mua" placeholder="Tìm người mua"></th>
+                        <th><input id="filterContact" type="search" aria-label="Lọc theo liên hệ" placeholder="Tìm liên hệ"></th>
+                        <th><input id="filterTickets" type="search" aria-label="Lọc theo số vé" placeholder="Tìm số vé"></th>
+                        <th><input id="filterCreator" type="search" aria-label="Lọc theo người tạo" placeholder="Tìm tài khoản"></th>
+                        <th><select id="filterSalesStatus" aria-label="Lọc theo trạng thái"><option value="">Tất cả</option><option value="won">Có vé trúng</option><option value="not-won">Chưa trúng</option></select></th>
+                        <th></th>
+                    </tr>
+                </thead><tbody id="salesTableBody"><tr><td class="empty-row" colspan="6">Đang tải danh sách vé…</td></tr></tbody></table></div>
             </section>
             <section class="admin-tab sales-panel" id="tabWinners" role="tabpanel">
                 <h2 style="margin-top:0">🏆 Danh sách người trúng & nhận quà</h2>
                 <p class="muted">Tự đối chiếu vé đã bán với kết quả. Đánh dấu sau khi đã trao quà.</p>
                 <div class="table-toolbar"><button type="button" class="export-button" id="exportWinnersButton">⬇ Xuất danh sách trúng (.xlsx)</button></div>
-                <div class="sales-table-wrap"><table class="sales-table"><thead><tr><th>Người trúng</th><th>Liên hệ</th><th>Số vé</th><th>Hạng giải</th><th>Phát quà</th></tr></thead><tbody id="winnersTableBody"><tr><td class="empty-row" colspan="5">Chưa có người trúng đối chiếu được.</td></tr></tbody></table></div>
+                <div class="sales-pagination" id="winnersPagination">
+                    <span id="winnersPaginationInfo">Đang tải danh sách…</span>
+                    <div class="sales-pagination-controls">
+                        <label for="winnersPageSize">Mỗi trang</label>
+                        <select id="winnersPageSize" aria-label="Số người trúng mỗi trang"><option value="10">10</option><option value="20" selected>20</option><option value="50">50</option><option value="100">100</option></select>
+                        <button type="button" class="secondary" id="winnersPrevPage">← Trước</button>
+                        <span id="winnersPageIndicator">1 / 1</span>
+                        <button type="button" class="secondary" id="winnersNextPage">Sau →</button>
+                    </div>
+                </div>
+                <div class="sales-table-wrap"><table class="sales-table"><thead>
+                    <tr><th>Người trúng</th><th>Liên hệ</th><th>Số vé</th><th>Hạng giải</th><th>Phát quà</th></tr>
+                    <tr class="sales-filter-row">
+                        <th><input id="filterWinnerName" type="search" aria-label="Lọc theo người trúng" placeholder="Tìm người trúng"></th>
+                        <th><input id="filterWinnerContact" type="search" aria-label="Lọc theo liên hệ người trúng" placeholder="Tìm liên hệ"></th>
+                        <th><input id="filterWinnerTicket" type="search" aria-label="Lọc theo số vé trúng" placeholder="Tìm số vé"></th>
+                        <th><input id="filterWinnerPrize" type="search" aria-label="Lọc theo hạng giải" placeholder="Tìm hạng giải"></th>
+                        <th><select id="filterWinnerClaim" aria-label="Lọc theo trạng thái phát quà"><option value="">Tất cả</option><option value="pending">Chưa phát</option><option value="claimed">Đã phát</option></select></th>
+                    </tr>
+                </thead><tbody id="winnersTableBody"><tr><td class="empty-row" colspan="5">Chưa có người trúng đối chiếu được.</td></tr></tbody></table></div>
             </section>
             <section class="admin-tab" id="tabPermissions" role="tabpanel" hidden>
                 <h2 class="section-title">🔐 Phân quyền tài khoản</h2>
@@ -676,6 +742,15 @@
         }) || null;
     }
     let activeTransferSaleId = null;
+    function isCurrentUserSaleOwner(sale) {
+        const user = auth.currentUser;
+        if (!user || !sale) return false;
+        if (sale.createdByUid) return sale.createdByUid === user.uid;
+        return Boolean(user.email && sale.createdBy === user.email);
+    }
+    function canManageSale(sale) {
+        return canManageAccess || (canAccessTab('sales') && isCurrentUserSaleOwner(sale));
+    }
     function renderSalesAndWinners() {
         const salesBody = document.getElementById('salesTableBody');
         const winnersBody = document.getElementById('winnersTableBody');
@@ -691,12 +766,18 @@
         }
         sales.reverse().forEach(([saleId, sale]) => {
             const row = salesBody.insertRow();
+            const tickets = Array.isArray(sale.tickets) ? sale.tickets : [];
+            const winnersForSale = tickets.filter((ticket) => getWinningPrize(String(ticket)));
+            row.dataset.saleId = saleId;
+            row.dataset.buyer = sale.buyerName || '';
+            row.dataset.contact = sale.contact || '';
+            row.dataset.tickets = tickets.join(' ');
+            row.dataset.creator = sale.createdBy || '';
+            row.dataset.status = winnersForSale.length ? 'won' : 'not-won';
             addCell(row, sale.buyerName || '—');
             addCell(row, sale.contact || '—');
-            const tickets = Array.isArray(sale.tickets) ? sale.tickets : [];
             addCell(row, tickets.join(', '));
             addCell(row, sale.createdBy || '—');
-            const winnersForSale = tickets.filter((ticket) => getWinningPrize(String(ticket)));
             addCell(row, winnersForSale.length ? `${winnersForSale.length} vé trúng` : 'Chưa trúng');
             const actionCell = row.insertCell();
             const actions = document.createElement('div');
@@ -711,12 +792,18 @@
             transferButton.className = 'transfer-sale';
             transferButton.textContent = 'Chuyển vé';
             transferButton.disabled = tickets.length === 0;
+            transferButton.hidden = !canManageSale(sale);
             transferButton.addEventListener('click', () => openTransferDialog(saleId, sale));
             const deleteButton = document.createElement('button');
             deleteButton.type = 'button';
             deleteButton.className = 'delete-sale';
             deleteButton.textContent = 'Xóa';
+            deleteButton.hidden = !canManageSale(sale);
             deleteButton.addEventListener('click', async () => {
+                if (!canManageSale(sale)) {
+                    showPopup('Chỉ tài khoản đã ghi nhận bán lô vé này hoặc superadmin mới được xóa.');
+                    return;
+                }
                 if (!confirm(`Xóa thông tin vé của ${sale.buyerName || 'người mua này'}?`)) return;
                 try { await remove(ref(db, `ticket_sales/${saleId}`)); }
                 catch (error) { showPopup(showError(error)); }
@@ -728,16 +815,21 @@
                 if (prize) winners.push({ saleId, sale, ticket: String(ticket), prize });
             });
         });
+        applySalesTableView();
 
         if (!winners.length) {
-            const row = winnersBody.insertRow();
-            const cell = addCell(row, 'Chưa có vé trúng trong danh sách đã bán.');
-            cell.colSpan = 5;
-            cell.className = 'empty-row';
+            applyWinnersTableView();
             return;
         }
         winners.forEach(({ saleId, sale, ticket, prize }) => {
             const row = winnersBody.insertRow();
+            const claimed = claimsData[ticket]?.delivered === true;
+            row.dataset.winnerId = ticket;
+            row.dataset.name = sale.buyerName || '';
+            row.dataset.contact = sale.contact || '';
+            row.dataset.ticket = ticket;
+            row.dataset.prize = prize.name || '';
+            row.dataset.claim = claimed ? 'claimed' : 'pending';
             addCell(row, sale.buyerName || '—');
             addCell(row, sale.contact || '—');
             const ticketCell = row.insertCell();
@@ -747,7 +839,6 @@
             ticketCell.append(badge);
             addCell(row, prize.name);
             const claimCell = row.insertCell();
-            const claimed = claimsData[ticket]?.delivered === true;
             const claimButton = document.createElement('button');
             claimButton.type = 'button';
             claimButton.className = 'claim-button';
@@ -760,7 +851,132 @@
             });
             claimCell.append(claimButton);
         });
+        applyWinnersTableView();
     }
+    function normalizeFilterText(value) {
+        return String(value || '').toLocaleLowerCase('vi').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').trim();
+    }
+    let salesCurrentPage = 1;
+    function applySalesTableView() {
+        const body = document.getElementById('salesTableBody');
+        if (!body) return;
+        const rows = [...body.querySelectorAll('tr[data-sale-id]')];
+        const filters = {
+            buyer: normalizeFilterText(document.getElementById('filterBuyer').value),
+            contact: normalizeFilterText(document.getElementById('filterContact').value),
+            tickets: normalizeFilterText(document.getElementById('filterTickets').value),
+            creator: normalizeFilterText(document.getElementById('filterCreator').value),
+            status: document.getElementById('filterSalesStatus').value
+        };
+        const matches = rows.filter((row) =>
+            normalizeFilterText(row.dataset.buyer).includes(filters.buyer)
+            && normalizeFilterText(row.dataset.contact).includes(filters.contact)
+            && normalizeFilterText(row.dataset.tickets).includes(filters.tickets)
+            && normalizeFilterText(row.dataset.creator).includes(filters.creator)
+            && (!filters.status || row.dataset.status === filters.status)
+        );
+        const pageSize = Number(document.getElementById('salesPageSize').value) || 20;
+        const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
+        salesCurrentPage = Math.min(Math.max(1, salesCurrentPage), pageCount);
+        const firstIndex = (salesCurrentPage - 1) * pageSize;
+        const visibleRows = new Set(matches.slice(firstIndex, firstIndex + pageSize));
+        rows.forEach((row) => { row.hidden = !visibleRows.has(row); });
+        const info = matches.length
+            ? `Hiển thị ${(firstIndex + 1).toLocaleString('vi-VN')}–${Math.min(firstIndex + pageSize, matches.length).toLocaleString('vi-VN')} / ${matches.length.toLocaleString('vi-VN')} phiếu`
+            : 'Không tìm thấy phiếu phù hợp.';
+        document.getElementById('salesPaginationInfo').textContent = info;
+        document.getElementById('salesPageIndicator').textContent = `${salesCurrentPage} / ${pageCount}`;
+        document.getElementById('salesPrevPage').disabled = salesCurrentPage <= 1 || matches.length === 0;
+        document.getElementById('salesNextPage').disabled = salesCurrentPage >= pageCount || matches.length === 0;
+    }
+    ['filterBuyer', 'filterContact', 'filterTickets', 'filterCreator', 'filterSalesStatus'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', () => {
+            salesCurrentPage = 1;
+            applySalesTableView();
+        });
+        document.getElementById(id).addEventListener('change', () => {
+            salesCurrentPage = 1;
+            applySalesTableView();
+        });
+    });
+    document.getElementById('salesPageSize').addEventListener('change', () => {
+        salesCurrentPage = 1;
+        applySalesTableView();
+    });
+    document.getElementById('salesPrevPage').addEventListener('click', () => {
+        salesCurrentPage -= 1;
+        applySalesTableView();
+    });
+    document.getElementById('salesNextPage').addEventListener('click', () => {
+        salesCurrentPage += 1;
+        applySalesTableView();
+    });
+    let winnersCurrentPage = 1;
+    function applyWinnersTableView() {
+        const body = document.getElementById('winnersTableBody');
+        if (!body) return;
+        const rows = [...body.querySelectorAll('tr[data-winner-id]')];
+        const filters = {
+            name: normalizeFilterText(document.getElementById('filterWinnerName').value),
+            contact: normalizeFilterText(document.getElementById('filterWinnerContact').value),
+            ticket: normalizeFilterText(document.getElementById('filterWinnerTicket').value),
+            prize: normalizeFilterText(document.getElementById('filterWinnerPrize').value),
+            claim: document.getElementById('filterWinnerClaim').value
+        };
+        const matches = rows.filter((row) =>
+            normalizeFilterText(row.dataset.name).includes(filters.name)
+            && normalizeFilterText(row.dataset.contact).includes(filters.contact)
+            && normalizeFilterText(row.dataset.ticket).includes(filters.ticket)
+            && normalizeFilterText(row.dataset.prize).includes(filters.prize)
+            && (!filters.claim || row.dataset.claim === filters.claim)
+        );
+        const pageSize = Number(document.getElementById('winnersPageSize').value) || 20;
+        const pageCount = Math.max(1, Math.ceil(matches.length / pageSize));
+        winnersCurrentPage = Math.min(Math.max(1, winnersCurrentPage), pageCount);
+        const firstIndex = (winnersCurrentPage - 1) * pageSize;
+        const visibleRows = new Set(matches.slice(firstIndex, firstIndex + pageSize));
+        rows.forEach((row) => { row.hidden = !visibleRows.has(row); });
+        let emptyRow = body.querySelector('tr[data-empty-state]');
+        if (!emptyRow) {
+            emptyRow = body.insertRow();
+            emptyRow.dataset.emptyState = 'true';
+            const cell = emptyRow.insertCell();
+            cell.colSpan = 5;
+            cell.className = 'empty-row';
+        }
+        emptyRow.hidden = matches.length > 0;
+        emptyRow.cells[0].textContent = rows.length === 0
+            ? 'Chưa có vé trúng trong danh sách đã bán.'
+            : 'Không tìm thấy người trúng phù hợp.';
+        document.getElementById('winnersPaginationInfo').textContent = matches.length
+            ? `Hiển thị ${(firstIndex + 1).toLocaleString('vi-VN')}–${Math.min(firstIndex + pageSize, matches.length).toLocaleString('vi-VN')} / ${matches.length.toLocaleString('vi-VN')} người trúng`
+            : 'Không tìm thấy người trúng phù hợp.';
+        document.getElementById('winnersPageIndicator').textContent = `${winnersCurrentPage} / ${pageCount}`;
+        document.getElementById('winnersPrevPage').disabled = winnersCurrentPage <= 1 || matches.length === 0;
+        document.getElementById('winnersNextPage').disabled = winnersCurrentPage >= pageCount || matches.length === 0;
+    }
+    ['filterWinnerName', 'filterWinnerContact', 'filterWinnerTicket', 'filterWinnerPrize', 'filterWinnerClaim'].forEach((id) => {
+        document.getElementById(id).addEventListener('input', () => {
+            winnersCurrentPage = 1;
+            applyWinnersTableView();
+        });
+        document.getElementById(id).addEventListener('change', () => {
+            winnersCurrentPage = 1;
+            applyWinnersTableView();
+        });
+    });
+    document.getElementById('winnersPageSize').addEventListener('change', () => {
+        winnersCurrentPage = 1;
+        applyWinnersTableView();
+    });
+    document.getElementById('winnersPrevPage').addEventListener('click', () => {
+        winnersCurrentPage -= 1;
+        applyWinnersTableView();
+    });
+    document.getElementById('winnersNextPage').addEventListener('click', () => {
+        winnersCurrentPage += 1;
+        applyWinnersTableView();
+    });
     function renderTicketStats() {
         if (!canManageAccess) return;
         const start = Number(ticketRange.start);
@@ -1112,6 +1328,7 @@
             const actor = auth.currentUser.email || auth.currentUser.uid;
             const historyRef = push(ref(db, 'ticket_history'));
             const saleRecord = { buyerName, contact, tickets, createdAt, createdBy: actor };
+            saleRecord.createdByUid = auth.currentUser.uid;
             await update(ref(db), {
                 [`ticket_sales/${saleRef.key}`]: saleRecord,
                 [`ticket_history/${historyRef.key}`]: { type: 'sale_created', saleId: saleRef.key, buyerName, tickets, actor, timestamp: createdAt }
@@ -1175,6 +1392,7 @@
             tickets,
             createdAt: serverTimestamp(),
             createdBy: actor,
+            createdByUid: auth.currentUser.uid,
             transferredFrom: activeTransferSaleId
         };
         updates[`ticket_transfers/${transferId}`] = {
