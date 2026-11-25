@@ -38,7 +38,7 @@
       ".write": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || root.child('admin_access').child(auth.uid).child('tabs').child('config').val() === true)"
     },
     "admin_meta": {
-      ".read": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || root.child('admin_access').child(auth.uid).child('tabs').child('results').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('config').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('sales').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('winners').val() === true)",
+      ".read": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || root.child('admin_access').child(auth.uid).child('tabs').child('results').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('config').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('sales').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('winners').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('stats').val() === true)",
       "last_config_update": {
         ".write": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || root.child('admin_access').child(auth.uid).child('tabs').child('config').val() === true)"
       },
@@ -47,8 +47,10 @@
       }
     },
     "ticket_sales": {
-      ".read": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || root.child('admin_access').child(auth.uid).child('tabs').child('sales').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('winners').val() === true)",
-      ".write": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || root.child('admin_access').child(auth.uid).child('tabs').child('sales').val() === true)"
+      ".read": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || root.child('admin_access').child(auth.uid).child('tabs').child('sales').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('winners').val() === true || root.child('admin_access').child(auth.uid).child('tabs').child('stats').val() === true)",
+      "$saleId": {
+        ".write": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || (root.child('admin_access').child(auth.uid).child('tabs').child('sales').val() === true && (!data.exists() || data.child('createdByUid').val() === auth.uid || (auth.token.email != null && data.child('createdBy').val() === auth.token.email))))"
+      }
     },
     "ticket_transfers": {
       ".read": "auth != null && ((root.child('admins').child(auth.uid).val() === true && root.child('admin_access').child(auth.uid).child('tabs').val() == null) || root.child('admin_access').child(auth.uid).child('tabs').child('sales').val() === true)",

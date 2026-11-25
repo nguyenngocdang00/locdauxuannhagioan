@@ -309,7 +309,9 @@
                         <label><input type="checkbox" name="permission" value="config"> Cơ cấu giải</label>
                         <label><input type="checkbox" name="permission" value="sales"> Vé đã bán</label>
                         <label><input type="checkbox" name="permission" value="winners"> Người trúng & phát quà</label>
+                        <label><input type="checkbox" name="permission" value="stats"> Thống kê vé</label>
                     </div>
+                    <p class="muted">Quyền Thống kê cho phép đọc dữ liệu phiếu vé để tính báo cáo, nhưng không cho tạo, chuyển hoặc xóa phiếu.</p>
                     <button type="submit">LƯU PHÂN QUYỀN</button>
                     <span id="permissionStatus" class="save-status" role="status" aria-live="polite"></span>
                 </form>
@@ -523,7 +525,8 @@
             document.querySelectorAll('.admin-tab').forEach((panel) => {
                 const active = panel.id === tabButton.dataset.tab;
                 panel.classList.toggle('active', active);
-                if (panel.id === 'tabPermissions' || panel.id === 'tabTicketStats') panel.hidden = !active || !canManageAccess;
+                if (panel.id === 'tabPermissions') panel.hidden = !active || !canManageAccess;
+                if (panel.id === 'tabTicketStats') panel.hidden = !active || (!canManageAccess && !canAccessTab('stats'));
             });
         });
     });
@@ -531,7 +534,7 @@
     let canManageAccess = false;
     let currentPermissions = {};
     let hasExplicitAccess = false;
-    const tabKeys = ['results', 'config', 'sales', 'winners'];
+    const tabKeys = ['results', 'config', 'sales', 'winners', 'stats'];
     function canAccessTab(key) {
         if (hasExplicitAccess) return currentPermissions[key] === true;
         return isSuperAdmin;
@@ -539,7 +542,7 @@
     function applyPermissions(permissions) {
         currentPermissions = permissions || {};
         const granted = tabKeys.filter(canAccessTab);
-        const ids = { results:'tabResults', config:'tabConfig', sales:'tabSales', winners:'tabWinners' };
+        const ids = { results:'tabResults', config:'tabConfig', sales:'tabSales', winners:'tabWinners', stats:'tabTicketStats' };
         for (const key of tabKeys) {
             const button = document.querySelector(`.admin-tabs [data-tab="${ids[key]}"]`);
             const panel = document.getElementById(ids[key]);
@@ -555,8 +558,8 @@
         managerPanel.classList.remove('active');
         const statsTab = document.getElementById('ticketStatsTab');
         const statsPanel = document.getElementById('tabTicketStats');
-        statsTab.hidden = !canManageAccess;
-        statsPanel.hidden = true;
+        statsTab.hidden = !canManageAccess && !canAccessTab('stats');
+        statsPanel.hidden = !canManageAccess && !canAccessTab('stats');
         statsPanel.classList.remove('active');
         if (granted.length) document.querySelector(`.admin-tabs [data-tab="${ids[granted[0]]}"]`).click();
     }
@@ -576,7 +579,7 @@
         setSaveStatus(configSaveStatus, 'saved', `Cập nhật gần nhất: ${formatSavedTime(meta.last_config_update)}`);
         setSaveStatus(resultsSaveStatus, 'saved', `Cập nhật gần nhất: ${formatSavedTime(meta.last_results_update)}`);
     }
-    const permissionLabels = { results:'Kết quả', config:'Cơ cấu giải', sales:'Vé đã bán', winners:'Người trúng & phát quà' };
+    const permissionLabels = { results:'Kết quả', config:'Cơ cấu giải', sales:'Vé đã bán', winners:'Người trúng & phát quà', stats:'Thống kê vé' };
     async function loadManagedPermissions() {
         const snapshot = await get(ref(db, 'admin_access'));
         const records = snapshot.val() || {};
@@ -978,7 +981,7 @@
         applyWinnersTableView();
     });
     function renderTicketStats() {
-        if (!canManageAccess) return;
+        if (!canManageAccess && !canAccessTab('stats')) return;
         const start = Number(ticketRange.start);
         const end = Number(ticketRange.end);
         const total = end - start + 1;
@@ -1036,10 +1039,10 @@
     function startSalesTracking(permissions = {}) {
         if (salesListenersStarted) return;
         salesListenersStarted = true;
-        const canSeeSalesData = canAccessTab('sales') || canAccessTab('winners');
+        const canSeeSalesData = canAccessTab('sales') || canAccessTab('winners') || canAccessTab('stats');
         if (canSeeSalesData) stopSalesListener = onValue(ref(db, 'ticket_sales'), (snapshot) => {
             salesData = snapshot.val() || {};
-            renderSalesAndWinners();
+            if (canAccessTab('sales') || canAccessTab('winners')) renderSalesAndWinners();
             renderTicketStats();
         }, (error) => { document.getElementById('salesSaveStatus').textContent = `Không tải được dữ liệu vé: ${showError(error)}`; });
         if (canAccessTab('sales') || canAccessTab('winners')) stopClaimsListener = onValue(ref(db, 'prize_claims'), (snapshot) => {
