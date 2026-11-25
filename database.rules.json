@@ -1,0 +1,33 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "visitCount": {
+      ".read": true,
+      ".write": true
+    },
+      "lottery_results": {
+      ".read": true,
+      ".write": false
+    },
+      "visitCount_viewKQ": {
+      ".read": true,
+      ".write": true
+    },
+      "system_logs": {
+      "logins": {
+      ".read": true,
+      ".write": true
+    },"updates": {
+      ".read": true,
+      ".write": true
+    }
+    },"system_users": {
+      ".read": true,
+      ".write": true
+    },"access_logs": {
+      ".read": true,
+      ".write": true
+    }
+  }
+}
